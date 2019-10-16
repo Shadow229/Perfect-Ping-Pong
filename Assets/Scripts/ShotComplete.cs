@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+//using UnityEngine.UI;
+
 
 public class ShotComplete : MonoBehaviour
 {
@@ -27,14 +28,16 @@ public class ShotComplete : MonoBehaviour
             //Splash finish UI
             FinishSplash.GetComponent<UIBounceUp>().PlaySplashUI();
 
-            //load next level
-            ///TODO
+            //dwell on the win before loading our next level
+            StartCoroutine(ProceedToNextLevel(2.5f));
         }
     }
 
 
+    private IEnumerator ProceedToNextLevel(float waitTime)
+    {
+        yield return new WaitForSeconds(waitTime);
 
-
-
-
+        GameManager.Instance.LoadNextScene();
+    }
 }
