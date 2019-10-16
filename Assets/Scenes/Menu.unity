@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -145,7 +145,7 @@ RectTransform:
   m_GameObject: {fileID: 210769504}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.4226, y: 6.2345276, z: 3.4226}
+  m_LocalScale: {x: 7.8723226, y: 14.340037, z: 7.8723226}
   m_Children:
   - {fileID: 1038057195}
   - {fileID: 1883538995}
@@ -570,14 +570,14 @@ RectTransform:
   m_GameObject: {fileID: 701580200}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.481, y: 3.481, z: 3.481}
+  m_LocalScale: {x: 7.9199705, y: 7.9199705, z: 7.9199705}
   m_Children: []
   m_Father: {fileID: 1909401323}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 37}
+  m_AnchoredPosition: {x: 0, y: 70}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &701580202
@@ -1147,7 +1147,7 @@ RectTransform:
   m_GameObject: {fileID: 1176455762}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.4226, y: 6.2345276, z: 3.4226}
+  m_LocalScale: {x: 7.878483, y: 14.351258, z: 7.878483}
   m_Children:
   - {fileID: 800994165}
   - {fileID: 1271089916}
@@ -1930,7 +1930,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 13.633759}
+  m_AnchoredPosition: {x: 0, y: 15.4}
   m_SizeDelta: {x: 263.7, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1724572846
@@ -1960,8 +1960,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4280361408
-  m_fontColor: {r: 0.754717, g: 0.13171947, b: 0.13171947, a: 1}
+    rgba: 4280757992
+  m_fontColor: {r: 0.9098039, g: 0.18243282, b: 0.1544589, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2394,7 +2394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
