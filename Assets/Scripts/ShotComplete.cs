@@ -1,18 +1,40 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ShotComplete : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public GameObject FinishSplash;
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (other.tag == "Ball")
+        {
+            ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
+
+            if (!ps.isPlaying)
+            {
+                ps.Play();
+            }
+
+            //stop bouncing
+            other.GetComponent<SphereCollider>().material.bounciness = 0f;
+            //keep us in the target
+            other.GetComponent<Ball>().ZeroOut();
+            //initialse the reset
+            //other.GetComponent<Ball>().Respawn(true);
+
+            //Splash finish UI
+            FinishSplash.GetComponent<UIBounceUp>().PlaySplashUI();
+
+            //load next level
+            ///TODO
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+
+
+
+
+
 }

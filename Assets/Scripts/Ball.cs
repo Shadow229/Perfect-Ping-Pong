@@ -29,7 +29,9 @@ public class Ball : MonoBehaviour
         GetComponent<SphereCollider>().material.bounciness = Bouncyness;
 
         Respawn();
+        
     }
+
 
 
 
@@ -48,17 +50,32 @@ public class Ball : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         //reset our rb
-        GetComponent<Rigidbody>().velocity = Vector3.zero;
-        GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        ZeroOut();
 
         //set our ball back
         transform.position = SpawnPoint;
+        transform.rotation = Quaternion.identity;
+
+        //incase of movement following the reset - zero out again
+        ZeroOut();
 
         //put out bouncyness back on if its been removed
         GetComponent<SphereCollider>().material.bounciness = fDefaultBouncyness;
 
+        //reset trajectory line
+        GetComponent<Movement>().trajectoryLine.GetComponent<Trajectory>().ResetTrajectory();
+
         //reset our respawning flag
         Respawning = false;
+
+        //mark the next shot at ready
+        GetComponent<Movement>().SetReady = true;
+    }
+
+    public void ZeroOut()
+    {
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
+        GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
     }
 
 }
