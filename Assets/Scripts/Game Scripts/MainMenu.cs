@@ -24,8 +24,8 @@ public class MainMenu : MonoBehaviour
     {
         //increment our unlocked levels
         GameManager.Instance.Level++;
-        //load next level (if it exists!)
-        if (SceneManager.GetSceneByName("Level" + GameManager.Instance.Level.ToString()).IsValid())
+        //load next level (if one exists!)
+        if (GameManager.Instance.Level <= GameManager.Instance.MaxLevels)
         {
             SceneManager.LoadScene(GameManager.Instance.Level);
         }

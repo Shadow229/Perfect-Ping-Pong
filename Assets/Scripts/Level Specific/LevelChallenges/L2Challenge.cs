@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class L2Requisits : MonoBehaviour
+public class L2Challenge : MonoBehaviour
 {
     public GameObject Ball;
 

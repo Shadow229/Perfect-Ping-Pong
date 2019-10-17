@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 { 
     public static GameManager Instance { get; private set; }
 
+    public int MaxLevels = 2;
     public int Level = 1;
     public bool LevelReqAchieved = false;
 

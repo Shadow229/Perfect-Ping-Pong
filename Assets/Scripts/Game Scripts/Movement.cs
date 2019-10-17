@@ -75,7 +75,13 @@ public class Movement : MonoBehaviour
         {
             Instantiate(dust, transform.position, Quaternion.identity);
             dust.GetComponent<ParticleSystem>().Play();
-            BounceCount++;
+
+            //add a bounce, except for when we hit our target
+            if (collision.gameObject.tag != "Target")
+            {
+                BounceCount++;
+            }
+ 
         }
     }
 
