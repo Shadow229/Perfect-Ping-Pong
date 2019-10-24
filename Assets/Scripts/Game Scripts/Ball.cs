@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    public Vector3 SpawnPoint = new Vector3(0.5f, 0f, -6.8f);
+    public Vector3 SpawnPoint;
+    public Vector3 SpawnRot;
 
     [SerializeField]
     [Range(0, 1)]
@@ -18,6 +19,13 @@ public class Ball : MonoBehaviour
     void Start()
     {
         fDefaultBouncyness = Bouncyness;
+        SetSpawnPoint(transform.position, transform.eulerAngles);
+    }
+
+    public void SetSpawnPoint(Vector3 pos, Vector3 rot)
+    {
+        SpawnPoint = pos;
+        SpawnRot = rot;
     }
 
     // Update is called once per frame
@@ -53,7 +61,7 @@ public class Ball : MonoBehaviour
 
         //set our ball back
         transform.position = SpawnPoint;
-        transform.rotation = Quaternion.identity;
+        transform.eulerAngles = SpawnRot;
 
         //incase of movement following the reset - zero out again
         ZeroOut();

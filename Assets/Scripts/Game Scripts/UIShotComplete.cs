@@ -8,22 +8,24 @@ public class UIShotComplete : MonoBehaviour
     public AnimationCurve FinishUIcurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
     public Vector3 startScale, endScale;
-    public float duration = 5f;
-    public float time = 0f;
-    public float pos = 0f;
+    public float duration = 1f;
+ 
 
-    public GameObject MenuButton;
-    public GameObject NextLvlButton;
+    public GameObject MenuBtn;
+    public GameObject NextChallengeBtn;
 
     private bool ShotSuccess = false;
     private RectTransform rt;
+
+    private float time = 0f;
+    private float pos = 0f;
 
     public void PlaySplashUI()
     {
 
         rt = GetComponent<RectTransform>();
 
-        //show the splash 'well done' image
+        //show the splash 'well done' image -- This is being disabled as a game object by the 'next challenge' button in the UI
         if (!GetComponent<RawImage>().enabled)
         {
             GetComponent<RawImage>().enabled = true;
@@ -55,8 +57,14 @@ public class UIShotComplete : MonoBehaviour
         //when the animation has finished, pop up the UI for next level
         if(pos >= 1)
         {
-            MenuButton.SetActive(true);
-            NextLvlButton.SetActive(true);
+            //reset the UI splash
+            ShotSuccess = false;
+            time = 0;
+            pos = 0;
+
+            //show proceed buttons
+            MenuBtn.SetActive(true);
+            NextChallengeBtn.SetActive(true);
         }
 
     }

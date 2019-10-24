@@ -26,11 +26,12 @@ public class Movement : MonoBehaviour
     public float Pixel2AngleY;
     public Vector2 HandPos;
 
+
     public float maxXAngle = 70;
 
     public float Pixel2AngleX;
 
-    public float PowerBar = 40;
+    public float PowerBar = 100;
 
     public int BounceCount = 0;
 
@@ -45,6 +46,10 @@ public class Movement : MonoBehaviour
     public float rbMag;
 
     private bool _Ready;
+    private bool _Began;
+
+    private float OriginalYRot;
+
     public bool SetReady {set{_Ready = value;}}
 
     // Start is called before the first frame update
@@ -94,6 +99,11 @@ public class Movement : MonoBehaviour
             if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 {
+                    //set the balls original rotation
+                    OriginalYRot = transform.eulerAngles.y;
+
+                    //log began throw
+                    _Began = true;
                     //    touchTimeStart = Time.time;
                     startPos = Input.GetTouch(0).position;
 
@@ -101,7 +111,7 @@ public class Movement : MonoBehaviour
                     trajectoryLine.GetComponent<MeshRenderer>().enabled = true;
                 }
             }
-            if(Input.GetTouch(0).phase == TouchPhase.Moved)
+            if(Input.GetTouch(0).phase == TouchPhase.Moved && _Began)
             {
                 mvPos = Input.GetTouch(0).position;
 
@@ -116,7 +126,7 @@ public class Movement : MonoBehaviour
                 float v = (F / rb.mass) * Time.fixedDeltaTime;
 
                 //rotation
-                angleX = Mathf.Clamp((mvPos.x * SensitivityX * Pixel2AngleX) - maxXAngle, -maxXAngle, maxXAngle);
+                angleX = Mathf.Clamp((mvPos.x * SensitivityX * Pixel2AngleX) - maxXAngle, -maxXAngle, maxXAngle) + OriginalYRot;
 
                // rotate the whole ball
                    transform.eulerAngles = new Vector3(0f, angleX, 0f);
@@ -129,8 +139,10 @@ public class Movement : MonoBehaviour
 
 
             }
-            if (Input.GetTouch(0).phase == TouchPhase.Ended) //when we've stopped touching the screen, apply force to the ball
+            if (Input.GetTouch(0).phase == TouchPhase.Ended && _Began) //when we've stopped touching the screen, apply force to the ball
             {
+                //clear began log for next throw
+                _Began = false;
                 // touchTimeEnd = Time.time;
                 endPos = Input.GetTouch(0).position;
 
@@ -178,6 +190,8 @@ public class Movement : MonoBehaviour
     }
 
 
+
+    /*
     private void AutoAim()
     {
         GameObject Target = GameObject.FindGameObjectWithTag("Target");
@@ -203,4 +217,6 @@ public class Movement : MonoBehaviour
         float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * a));
         return velocity * direction.normalized;
     }
+
+    */
 }

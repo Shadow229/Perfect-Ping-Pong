@@ -10,6 +10,20 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(GameManager.Instance.Level);
     }
 
+
+    public void PlayLevel(int LevelNo)
+    {
+        if (LevelNo <= GameManager.Instance.MaxLevels && LevelNo <= GameManager.Instance.Level)
+        {
+            SceneManager.LoadScene(LevelNo);
+        }
+
+    }
+   public void PlayNextLevel()
+    {
+        GameManager.Instance.LoadNextScene();
+    }
+
     public void QuitGame()
     {
         Application.Quit();
@@ -20,20 +34,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene(0);
     }
 
-    public void LoadNextScene()
+    public void ResetGame()
     {
-        //increment our unlocked levels
-        GameManager.Instance.Level++;
-        //load next level (if one exists!)
-        if (GameManager.Instance.Level <= GameManager.Instance.MaxLevels)
-        {
-            SceneManager.LoadScene(GameManager.Instance.Level);
-        }
-        else
-        {
-            //go back to the menu
-            LoadMenu();
-        }
+        GameManager.Instance.ResetGame();
     }
+ 
+    
 
 }

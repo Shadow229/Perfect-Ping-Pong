@@ -25,6 +25,8 @@ public class ShotComplete : MonoBehaviour
 
             if (GameManager.Instance.LevelReqAchieved)
             {
+                //Save our incremented challenge level
+                GameManager.Instance.ChallengeCompleted();
                 //Splash finish UI and buttons
                 FinishSplash.GetComponent<UIShotComplete>().PlaySplashUI();
             }
