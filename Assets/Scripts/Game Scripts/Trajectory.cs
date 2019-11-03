@@ -8,8 +8,8 @@ public class Trajectory : MonoBehaviour
     Mesh mesh;
     public float meshWidth;
 
-    //public float velocity;
-    //public float angle;
+    //public float Fvelocity;
+    //public float Fangle;
     public int resolution = 10;
 
 
@@ -35,8 +35,6 @@ public class Trajectory : MonoBehaviour
     {
         MakeArkMesh(CalcArcArr(velocity, angle));
     }
-
-
 
 
     void MakeArkMesh(Vector3[] arcVerts)
@@ -68,11 +66,25 @@ public class Trajectory : MonoBehaviour
                     tri[i * 12 + 11] = (i + 1) * 2 + 1;
 
                 }
-
-                mesh.vertices = verticies;
-                mesh.triangles = tri;
             }
+
+            mesh.vertices = verticies;
+            mesh.triangles = tri;
+            SetUVs();
         }
+    }
+
+    private void SetUVs()
+    {
+        Mesh mesh = GetComponent<MeshFilter>().mesh;
+        Vector3[] vertices = mesh.vertices;
+        Vector2[] uvs = new Vector2[vertices.Length];
+
+        for (int i = 0; i < uvs.Length; i++)
+        {
+            uvs[i] = new Vector2(i, i);
+        }
+        mesh.uv = uvs;
     }
 
     Vector3[] CalcArcArr(float velocity, float angle)

@@ -13,11 +13,7 @@ public class MainMenu : MonoBehaviour
 
     public void PlayLevel(int LevelNo)
     {
-        if (LevelNo <= GameManager.Instance.MaxLevels && LevelNo <= GameManager.Instance.Level)
-        {
-            SceneManager.LoadScene(LevelNo);
-        }
-
+        GameManager.Instance.LoadScene(LevelNo);
     }
    public void PlayNextLevel()
     {
@@ -38,7 +34,5 @@ public class MainMenu : MonoBehaviour
     {
         GameManager.Instance.ResetGame();
     }
- 
-    
 
 }

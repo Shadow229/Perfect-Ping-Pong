@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: lit strips glass
+  m_Shader: {fileID: 4800000, guid: 7f5293e531fa80442b042baf4b2c2248, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_B18C2DD5:
+        m_Texture: {fileID: 2800000, guid: 4bed0261f895f9b48a0a59c61290a64d, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_C60D3CFD:
+        m_Texture: {fileID: 2800000, guid: e134aabcf56b7b24caa94d90f38779bf, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_DC7948C2:
+        m_Texture: {fileID: 2800000, guid: c021d051fa0cba84282b4a2577aa85c5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_FA6B3719:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture_43591C7D:
+        m_Texture: {fileID: 2800000, guid: c021d051fa0cba84282b4a2577aa85c5, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture_7308E757:
+        m_Texture: {fileID: 10906, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalCreate_6B12329E_Texture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Vector1_1F5472F0: 0
+    - Vector1_358D1D3A: 0.51
+    - Vector1_3D5B87B: 1
+    - Vector1_46CF2E78: -0.21
+    - Vector1_77371E74: 0
+    - Vector1_907BDCDF: 1
+    - Vector1_AFF8E27F: 1
+    - Vector1_C05C6049: 0.216
+    - Vector1_E627C24F: 1
+    - Vector1_F15D4428: -43.57
+    m_Colors:
+    - Color_3B567608: {r: 0, g: 0, b: 0, a: 0}
+    - Color_3B882167: {r: 0, g: 0, b: 0, a: 0}
+    - Color_4E978287: {r: 1, g: 1, b: 1, a: 0}
+    - Color_8712C3F9: {r: 0.3207547, g: 0.3207547, b: 0.3207547, a: 0}
+    - Color_8E4213F2: {r: 0, g: 0, b: 0, a: 1}
+    - Color_9BA2FAC3: {r: 1, g: 1, b: 1, a: 1}
+    - Color_CF005B7D: {r: 1, g: 1, b: 1, a: 0}
+    - Color_D333D8A: {r: 0, g: 0, b: 0, a: 0}
+    - Color_E90F8C5A: {r: 1, g: 1, b: 1, a: 0}
+    - Vector2_88EFE8A3: {r: 0, g: 0, b: 0, a: 0}
+    - Vector2_9B9F60: {r: 11.01, g: 0, b: 0.14, a: 0.35}
+    - Vector4_132C949: {r: 1, g: 1, b: 0, a: 0}
+    - Vector4_65A4A937: {r: 1, g: 1, b: 0, a: 0}
+    - Vector4_E3D34D95: {r: 1, g: 1, b: 0, a: 0}

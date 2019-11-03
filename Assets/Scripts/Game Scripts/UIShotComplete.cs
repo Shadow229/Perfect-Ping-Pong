@@ -25,12 +25,6 @@ public class UIShotComplete : MonoBehaviour
 
         rt = GetComponent<RectTransform>();
 
-        //show the splash 'well done' image -- This is being disabled as a game object by the 'next challenge' button in the UI
-        if (!GetComponent<RawImage>().enabled)
-        {
-            GetComponent<RawImage>().enabled = true;
-        }
-
         //mark the shot as a success for the update function
         StartCoroutine(MarkSuccessful(0.8f));
     }
@@ -48,6 +42,13 @@ public class UIShotComplete : MonoBehaviour
     {
         if (ShotSuccess)
         {
+            //show the splash 'well done' image
+            if (!GetComponent<RawImage>().enabled)
+            {
+                GetComponent<RawImage>().enabled = true;
+
+            }
+
             //change the scale of the splash text over time
             time += Time.deltaTime;
             pos = time / duration;
@@ -64,8 +65,11 @@ public class UIShotComplete : MonoBehaviour
 
             //show proceed buttons
             MenuBtn.SetActive(true);
-            NextChallengeBtn.SetActive(true);
-        }
 
+            if (!GameManager.Instance.lastChallenge)
+            {
+                NextChallengeBtn.SetActive(true);
+            }
+        }
     }
 }

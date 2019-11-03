@@ -39,13 +39,13 @@ public class Ball : MonoBehaviour
 
 
 
-    public void Respawn(bool ForceRespawn = false)
+    public void Respawn(bool ForceRespawn = false, float ForceTime = -1f)
     {
         if (!Respawning && (transform.position.y < -1.5 || ForceRespawn))
         {
             Respawning = true;
             //START A COROUTINE TO RESPAWN
-            StartCoroutine(RespawnBall(2f));
+            StartCoroutine(RespawnBall(ForceTime < 0 ? 2f : ForceTime)); ;
         }
     }
 
@@ -78,8 +78,9 @@ public class Ball : MonoBehaviour
         //mark the next shot at ready
         GetComponent<Movement>().SetReady = true;
 
-        //reset the ball count
+        //reset the ball counters
         GetComponent<Movement>().BounceCount = 0;
+        GetComponent<Movement>().ReboundCount = 0;
     }
 
     public void ZeroOut()

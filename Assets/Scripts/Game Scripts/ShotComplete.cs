@@ -1,18 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//using UnityEngine.UI;
+using UnityEngine.UI;
 
 
 public class ShotComplete : MonoBehaviour
 {
     public GameObject FinishSplash;
+    public GameObject ChallengeManager;
+
+    private bool Ran = false;
+
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Ball")
+        //ensure its the ball we're colliting with and that its not a second bouce (only run once)
+        if (other.CompareTag("Ball"))
         {
-            ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
 
+            ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
+            Animator anim = GetComponent<Animator>();
+
+            //wobble the cub
+            if (anim)
+            {
+                anim.Play("Wobble");
+            };
+
+            //play the splash
             if (!ps.isPlaying)
             {
                 ps.Play();
@@ -20,21 +34,41 @@ public class ShotComplete : MonoBehaviour
 
             //stop bouncing
             other.GetComponent<SphereCollider>().material.bounciness = 0f;
-            //keep us in the target
+            //zero out velocity - keep us in the target 
             other.GetComponent<Ball>().ZeroOut();
 
-            if (GameManager.Instance.LevelReqAchieved)
+
+
+            //if the requirements for that challenge have been filled
+            if (GameManager.Instance.ChallengeReqAchieved)
             {
-                //Save our incremented challenge level
-                GameManager.Instance.ChallengeCompleted();
-                //Splash finish UI and buttons
-                FinishSplash.GetComponent<UIShotComplete>().PlaySplashUI();
+                //only run this bit once
+                if(!Ran)
+                {
+                    Ran = true;
+                    //update the UI strikethrough for that challenge perminatently
+                    ChallengeManager.GetComponent<Challenge>().ObjectiveUI[GameManager.Instance.CurrentChallenge - 1].transform.GetChild(0).GetComponent<Image>().enabled = true;
+
+                    //update unlocked challenges
+                    ChallengeManager.GetComponent<Challenge>().AddChallengeUnlocked();
+                    //Save our incremented challenge level
+                    GameManager.Instance.ChallengeCompleted();
+                    //Splash finish UI and buttons
+                    FinishSplash.GetComponent<UIShotComplete>().PlaySplashUI();
+                }
+                else
+                {
+                    other.GetComponent<Ball>().Respawn(true);
+                }
+
             }
             else
             {
                 //initialse the reset
                 other.GetComponent<Ball>().Respawn(true);
             }
+            
+            
         }
     }
 }

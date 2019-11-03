@@ -6,6 +6,7 @@ public class LockBounce : MonoBehaviour
 {
     public float speed = 5f;
     public float height = 0.5f;
+ //   public bool Show = true;
 
 
     void Update()

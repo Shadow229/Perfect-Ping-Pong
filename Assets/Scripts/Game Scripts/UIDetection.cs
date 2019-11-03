@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 
 public class UIDetection : MonoBehaviour
 {
+    public GameObject Ball;
 
     public List<RaycastResult> RaycastTouch()
     {
@@ -24,7 +25,7 @@ public class UIDetection : MonoBehaviour
         return results;
     }
 
-    public bool CheckPowerBar()
+    public bool CheckUIpressed()
     {
         bool Overlapping = false;
         List<RaycastResult> results = RaycastTouch();
@@ -34,12 +35,15 @@ public class UIDetection : MonoBehaviour
         {
             //Debug.Log("Hit " + result.gameObject.name);
 
-            if (result.gameObject.name == "PowerBar")
+            //if we're over the powerbar or hitting the finish UI buttons, dont throw the ball 
+            if (result.gameObject.name == "PowerBar" || result.gameObject.name == "NextChallengeBtn" || result.gameObject.name == "MenuBtn" |
+                // if we're hitting next or preview (while not throwing the ball already) dont throw the ball
+                (!Ball.GetComponent<Movement>()._Began && (result.gameObject.name == "NextChallenge" || result.gameObject.name == "PrevChallenge")))
+            // if we're pressing next challenge or menu dont throw it)
             {
                 Overlapping = true;
                 break;
             }
-
         }
 
         return Overlapping;

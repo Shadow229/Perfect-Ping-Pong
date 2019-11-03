@@ -7,19 +7,25 @@ public class GameManager : MonoBehaviour
 { 
     public static GameManager Instance { get; private set; }
 
-    //needed while under dev to stop attempting scene loads not completed yet
+    //needed while under dev to stop attempting scene loads not completed yet (could also be used as a lock for paid levels)
     public int MaxLevels = 2;
 
     //game variables
+    [Header("Persistant Variables")]
     public int Level;
     public int ChallengeLevel;
-    public int Points;
-    public bool LevelReqAchieved = false;
+    [Header("Gameplay Variables")]
+    public int CurrentChallenge;
+    public int CurrentLevel;
+
+
+   // public int Points;
+    public bool ChallengeReqAchieved = false;
     public bool lastChallenge = false;
 
 
 
-    private void Awake()
+    private void Start()
     {
         if (Instance == null)
         {
@@ -32,6 +38,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
 
     public void LoadGame()
     {
@@ -57,8 +64,11 @@ public class GameManager : MonoBehaviour
 
     public void LevelUnlocked()
     {
-        //set it
+        //set level
         PlayerPrefs.SetInt("Level", Level++);
+        //reset challenge level
+        ChallengeLevel = 1;
+        PlayerPrefs.SetInt("ChallengeLevel", ChallengeLevel);
         //save it
         PlayerPrefs.Save();
     }
@@ -66,10 +76,18 @@ public class GameManager : MonoBehaviour
 
     public void ChallengeCompleted()
     {
-        //set it
-        PlayerPrefs.SetInt("ChallengeLevel", ChallengeLevel++);
-        //save it
-        PlayerPrefs.Save();
+        if (lastChallenge)
+        {
+            LevelUnlocked();
+        }
+        else
+        {
+            //set it
+            PlayerPrefs.SetInt("ChallengeLevel", ChallengeLevel++);
+            //save it
+            PlayerPrefs.Save();
+        }
+
     }
 
 
@@ -97,7 +115,17 @@ public class GameManager : MonoBehaviour
         //if that level has been unlocked
         if (a_Level <= Level)
         {
+            CurrentLevel = a_Level;
             SceneManager.LoadScene(a_Level);
+
+            if (a_Level == Level)
+            {
+                CurrentChallenge = ChallengeLevel;
+            }
+            else
+            {
+                CurrentChallenge = 1;
+            }
         }
     }
 
@@ -109,5 +137,6 @@ public class GameManager : MonoBehaviour
         //reload our variables
         LoadGame();
     }
+
 
 }
