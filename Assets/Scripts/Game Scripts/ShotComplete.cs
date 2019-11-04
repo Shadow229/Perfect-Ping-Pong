@@ -42,7 +42,7 @@ public class ShotComplete : MonoBehaviour
             //if the requirements for that challenge have been filled
             if (GameManager.Instance.ChallengeReqAchieved)
             {
-                //only run this bit once
+                //only increment levels and such once
                 if(!Ran)
                 {
                     Ran = true;
@@ -53,12 +53,12 @@ public class ShotComplete : MonoBehaviour
                     ChallengeManager.GetComponent<Challenge>().AddChallengeUnlocked();
                     //Save our incremented challenge level
                     GameManager.Instance.ChallengeCompleted();
-                    //Splash finish UI and buttons
-                    FinishSplash.GetComponent<UIShotComplete>().PlaySplashUI();
                 }
                 else
                 {
-                    other.GetComponent<Ball>().Respawn(true);
+                    //Splash finish UI and buttons
+                    FinishSplash.GetComponent<UIShotComplete>().PlaySplashUI();
+                   // other.GetComponent<Ball>().Respawn(true);
                 }
 
             }

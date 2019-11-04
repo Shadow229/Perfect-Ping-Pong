@@ -60,7 +60,7 @@ public class Ball : MonoBehaviour
         ZeroOut();
 
         //set our ball back
-        transform.position = SpawnPoint;
+        transform.position =  SpawnPoint;
         transform.eulerAngles = SpawnRot;
 
         //incase of movement following the reset - zero out again

@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour
     public void LevelUnlocked()
     {
         //set level
-        PlayerPrefs.SetInt("Level", Level++);
+        PlayerPrefs.SetInt("Level", ++Level);
         //reset challenge level
         ChallengeLevel = 1;
         PlayerPrefs.SetInt("ChallengeLevel", ChallengeLevel);
@@ -76,17 +76,22 @@ public class GameManager : MonoBehaviour
 
     public void ChallengeCompleted()
     {
-        if (lastChallenge)
+        //if this was the last challenge, and we're not replaying an old level - unlock the next one
+        if (CurrentLevel == Level)
         {
-            LevelUnlocked();
+            if (lastChallenge)
+            {
+                LevelUnlocked();
+            }
+            else
+            {
+                //set it
+                PlayerPrefs.SetInt("ChallengeLevel", ++ChallengeLevel);
+                //save it
+                PlayerPrefs.Save();
+            }
         }
-        else
-        {
-            //set it
-            PlayerPrefs.SetInt("ChallengeLevel", ChallengeLevel++);
-            //save it
-            PlayerPrefs.Save();
-        }
+        
 
     }
 

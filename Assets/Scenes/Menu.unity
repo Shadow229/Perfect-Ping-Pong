@@ -4455,7 +4455,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1654756493}
+      - m_Target: {fileID: 1176455764}
         m_MethodName: ResetGame
         m_Mode: 1
         m_Arguments:

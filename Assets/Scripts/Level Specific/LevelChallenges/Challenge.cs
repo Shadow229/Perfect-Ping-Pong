@@ -10,6 +10,7 @@ public class Challenge : MonoBehaviour
     public GameObject Ball;
     public GameObject Objectives;
     public GameObject ShotCompleteUI;
+    public GameObject overlayManager;
 
     [Space]
     [Header("Challenge Info")]
@@ -41,6 +42,9 @@ public class Challenge : MonoBehaviour
     {
         if (GameManager.Instance.CurrentChallenge < TotalChallenges)
         {
+            //clear any current overlay
+            overlayManager.GetComponent<OverlayManager>().ClearOverlay();
+
             //inc the current challenge
             GameManager.Instance.CurrentChallenge++;
             //ChallengesUnlocked++;
@@ -68,6 +72,9 @@ public class Challenge : MonoBehaviour
     {
         if (GameManager.Instance.CurrentChallenge > 1)
         {
+            //clear any current overlay
+            overlayManager.GetComponent<OverlayManager>().ClearOverlay();
+
             //inc the current challenge
             GameManager.Instance.CurrentChallenge--;
             //ChallengesUnlocked++;
@@ -88,12 +95,15 @@ public class Challenge : MonoBehaviour
         }   
     }
 
-    private IEnumerator SetNewChallenge(float waitTime)
+    protected IEnumerator SetNewChallenge(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
 
         //unlock the challenge
         UpdatePadlocks();
+
+        //call our overlay for popups on the current challenge
+        overlayManager.GetComponent<OverlayManager>().ShowOverlay();
 
         //move the ball (and trajectories)
         //Ball.GetComponent<Ball>().ZeroOut();

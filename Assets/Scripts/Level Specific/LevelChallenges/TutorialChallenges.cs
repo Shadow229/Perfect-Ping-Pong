@@ -9,6 +9,9 @@ public class TutorialChallenges : Challenge
 
     public void Awake()
     {
+        //
+        HideObjectives(GameManager.Instance.CurrentChallenge);
+
         //set our level values
         SetLevelValues();
 
@@ -21,6 +24,8 @@ public class TutorialChallenges : Challenge
         //update camera position
         Camera.main.GetComponent<Animator>().SetInteger("CurrentChallenge", GameManager.Instance.CurrentChallenge);
 
+        //set up the challenge
+        StartCoroutine(SetNewChallenge(ChallengeTransitionTimef));
     }
 
     public void Update()
@@ -110,6 +115,8 @@ public class TutorialChallenges : Challenge
     //Level 1: no challenge - just get the ball in
     private bool Level1()
     {
+        GameManager.Instance.lastChallenge = false;
+
         if (GameManager.Instance.ChallengeLevel <= 1 && GameManager.Instance.Level <= LevelNumber)
         {
             return true;
@@ -123,6 +130,8 @@ public class TutorialChallenges : Challenge
     //Level 2: 1 or more bounces
     private bool Level2()
     {
+        GameManager.Instance.lastChallenge = false;
+
         if (GameManager.Instance.ChallengeLevel <= 2 && GameManager.Instance.Level <= LevelNumber)
         {
             if (Ball.GetComponent<Movement>().BounceCount >= 1)
