@@ -7,18 +7,12 @@ public class UIShotComplete : MonoBehaviour
 {
     public AnimationCurve FinishUIcurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
 
-    public Vector3 startScale, endScale;
-    public float duration = 1f;
- 
-
     public GameObject MenuBtn;
     public GameObject NextChallengeBtn;
+    public GameObject NextLevelBtn;
 
-    private bool ShotSuccess = false;
+    //private bool ShotSuccess = false;
     private RectTransform rt;
-
-    private float time = 0f;
-    private float pos = 0f;
 
     public void PlaySplashUI()
     {
@@ -34,42 +28,40 @@ public class UIShotComplete : MonoBehaviour
     {
         yield return new WaitForSeconds(waitTime);
 
-        ShotSuccess = true;
+        ShotSuccess();
     }
 
 
-    private void Update()
+    private void ShotSuccess()
     {
-        if (ShotSuccess)
+        Animator anim = GetComponent<Animator>();
+
+        //start the animation
+        if (anim)
         {
-            //show the splash 'well done' image
-            if (!GetComponent<RawImage>().enabled)
-            {
-                GetComponent<RawImage>().enabled = true;
+            anim.Play("NailedIt"); //getting stuck here. need to reset it when one of the buttons below is hit
+        };
 
-            }
+        //show the splash completed image
+        if (!GetComponent<RawImage>().enabled)
+        {
+            GetComponent<RawImage>().enabled = true;
 
-            //change the scale of the splash text over time
-            time += Time.deltaTime;
-            pos = time / duration;
-            rt.localScale = Vector3.Lerp(startScale, endScale, FinishUIcurve.Evaluate(pos));
         }
 
+
         //when the animation has finished, pop up the UI for next level
-        if(pos >= 1)
+
+        //show proceed buttons
+        MenuBtn.SetActive(true);
+
+        if (!GameManager.Instance.lastChallenge)
         {
-            //reset the UI splash
-            ShotSuccess = false;
-            time = 0;
-            pos = 0;
-
-            //show proceed buttons
-            MenuBtn.SetActive(true);
-
-            if (!GameManager.Instance.lastChallenge)
-            {
-                NextChallengeBtn.SetActive(true);
-            }
+            NextChallengeBtn.SetActive(true);
+        }
+        else if (GameManager.Instance.CurrentLevel < GameManager.Instance.MaxLevels)
+        {
+            NextLevelBtn.SetActive(true);
         }
     }
 }

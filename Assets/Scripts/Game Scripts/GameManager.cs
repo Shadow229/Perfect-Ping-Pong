@@ -11,18 +11,24 @@ public class GameManager : MonoBehaviour
     public int MaxLevels = 2;
 
     //game variables
+    [Header("Device Info")]
+    public float ScreenHeight;
+    public float ScreenWidth;
     [Header("Persistant Variables")]
     public int Level;
     public int ChallengeLevel;
     [Header("Gameplay Variables")]
     public int CurrentChallenge;
     public int CurrentLevel;
+    [Header("User Settings")]
+    public float SensitivityMultiplier;
+    public float MusicVol;
 
 
-   // public int Points;
+
+    // public int Points;
     public bool ChallengeReqAchieved = false;
     public bool lastChallenge = false;
-
 
 
     private void Start()
@@ -42,6 +48,9 @@ public class GameManager : MonoBehaviour
 
     public void LoadGame()
     {
+         ScreenWidth = Screen.width;
+         ScreenHeight = Screen.height;
+
         //get our persistant level on start
         if (PlayerPrefs.HasKey("Level"))
         {
@@ -60,6 +69,25 @@ public class GameManager : MonoBehaviour
         {
             ChallengeLevel = 1;
         }
+        if (PlayerPrefs.HasKey("Sensitivity"))
+        {
+            SensitivityMultiplier = PlayerPrefs.GetFloat("Sensitivity");
+        }
+        else
+        {
+            SensitivityMultiplier = 1.5f;
+        }
+        if (PlayerPrefs.HasKey("MusicVolume"))
+        {
+            MusicVol = PlayerPrefs.GetFloat("MusicVolume");
+        }
+        else
+        {
+            MusicVol = 0.5f;
+        }
+
+        //set music volume
+        GetComponent<AudioSource>().volume = MusicVol;
     }
 
     public void LevelUnlocked()
@@ -98,15 +126,10 @@ public class GameManager : MonoBehaviour
 
     public void LoadNextScene()
     {
-        //get current scene level
-        string sn = SceneManager.GetActiveScene().name;
-        sn = sn.Replace("Level", "");
-        int.TryParse(sn, out int CurrLvl);
-
         //load next level (if one exists!)
-        if (CurrLvl < MaxLevels)
+        if (CurrentLevel < MaxLevels)
         {
-            SceneManager.LoadScene(CurrLvl + 1);
+            LoadScene(CurrentLevel + 1);
         }
         else
         {
@@ -144,4 +167,30 @@ public class GameManager : MonoBehaviour
     }
 
 
+    public void SetSensitivity(float s)
+    {
+        SensitivityMultiplier = s;
+        PlayerPrefs.SetFloat("Sensitivity", s);
+        //save it
+        PlayerPrefs.Save();
+    }
+
+    //run this from the gamemanager so its persistant across levels
+    //public void PlayBackgroundMusic()
+    //{
+    //    //get audio
+    //    AudioSource aud = GetComponent<AudioSource>();
+    //    //play it
+    //    aud.Play();
+    //}
+    //update volume
+
+
+    public void SetMusicVolume(float vol)
+    {
+        //save it
+        MusicVol = vol;
+        PlayerPrefs.SetFloat("MusicVolume", vol);
+        PlayerPrefs.Save();
+    }
 }

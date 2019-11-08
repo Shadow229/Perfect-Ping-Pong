@@ -28,7 +28,7 @@ public class UIDetection : MonoBehaviour
 
     public bool CheckUIpressed()
     {
-//        bool Overlapping = false;
+        //        bool Overlapping = false;
         List<RaycastResult> results = RaycastTouch();
 
 
@@ -43,14 +43,15 @@ public class UIDetection : MonoBehaviour
             foreach (RaycastResult result in results)
             {
                 //Debug.Log("Hit " + result.gameObject.name);
+                string hn = result.gameObject.name;
 
                 //if we're over the powerbar or hitting the finish UI buttons, dont throw the ball 
-                if (result.gameObject.name == "PowerBar" || result.gameObject.name == "NextChallengeBtn" || result.gameObject.name == "MenuBtn" ||
+                if (hn == "PowerBar" || hn == "NextChallengeBtn" || hn == "MenuBtn" || hn == "Menu" ||
                     // if we're hitting next or preview (while not throwing the ball already) dont throw the ball
                     (!Ball.GetComponent<Movement>()._Began && (result.gameObject.name == "NextChallenge" || result.gameObject.name == "PrevChallenge")))
                 {
                     return true;
- //                   break;
+                    //                   break;
                 }
             }
         }

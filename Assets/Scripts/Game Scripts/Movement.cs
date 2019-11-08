@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using System;
 
 public class Movement : MonoBehaviour
 {
     //Private Variables
-    private float fDefaultBouceMultiplier; //, touchTimeStart, touchTimeEnd;
-    private Vector2 startPos, mvPos, endPos, dir;
+    private Vector2 startPos = Vector2.zero;
+    private Rigidbody rb;
 
     public GameObject trajectoryLine;
     public GameObject ghostTrajectory;
     public GameObject dust;
     public GameObject canvas;
-   // public GameObject ChallengeManager;
 
-    public float SensitivityX = 1.5f;
-    public float SensitivityY = 2f;
+    public Vector2 Sensitivity = new Vector2(1f, 2f);
 
     public Vector2 releaseAngle = Vector2.zero;
     public Vector3 releaseVelocity = Vector3.zero;
@@ -25,8 +24,7 @@ public class Movement : MonoBehaviour
     public Vector2[] SolutionAngle;
     public Vector3[] SolutionVelocity;
 
-    //public Vector2 releaseAngleIN = new Vector2(-14.9f, 53.5f);
-    //public Vector3 releaseVelocityIN = new Vector3(-61.3f,321.6f,229.8f);
+    public AudioClip[] bounceSound;
 
     public float velocityLimit = 100f;
     public float angleLimit = 10f;
@@ -35,38 +33,19 @@ public class Movement : MonoBehaviour
     [Range(0f,1f)]
     public float AutoAimAmt = 1f;
 
-    public bool GhostLine;
+    //private bool GhostLine; //Dev only
 
-    public float sw = Screen.width;
-    public float sh = Screen.height;
-
-    public float maxYAngle = 89;
-    public float Pixel2AngleY;
-    public Vector2 HandPos;
-
-
-    public float maxXAngle = 70;
-
-    public float Pixel2AngleX;
+    private Vector2 MaxAngle = new Vector2(70,89);
+    private Vector2 Pixel2Angle;
+    private AudioSource audioSource;
 
     public float PowerBar = 100;
 
     public int BounceCount = 0;
     public int ReboundCount = 0;
-
-    Rigidbody rb;
-
-    public float angleY;
-    public float angleX;
-
     public bool LiveShot = false;
-
-    public float rbMag;
-
     private bool _Ready;
     public bool _Began;
-
-    private float OriginalYRot;
 
     public bool SetReady {set{_Ready = value;}}
 
@@ -74,16 +53,23 @@ public class Movement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        Pixel2AngleY = maxYAngle / sh;
-        Pixel2AngleX = (maxXAngle * 2) / sw;
+        Pixel2Angle.y = MaxAngle.y / GameManager.Instance.ScreenHeight;
+        Pixel2Angle.x = (MaxAngle.x * 2) / GameManager.Instance.ScreenWidth;
+        audioSource = GetComponent<AudioSource>();
         _Ready = true;
+    }
+
+    private void Awake()
+    {
+        Sensitivity.x *= GameManager.Instance.SensitivityMultiplier;
+        Sensitivity.y *= GameManager.Instance.SensitivityMultiplier;
     }
 
     // Update is called once per frame
     void Update()
     {
         Move();
-        CheckDeadBall();
+       // CheckDeadBall();
     }
 
     //public function for the UI slider to adjust the power
@@ -100,11 +86,28 @@ public class Movement : MonoBehaviour
             dust.GetComponent<ParticleSystem>().Play();
 
             //add a bounce count after its been thrown, except for when we hit our target 
-            if (collision.gameObject.tag != "Target" && !_Ready)
+            if (!collision.gameObject.CompareTag("Target") && !_Ready)
             {
                 BounceCount++;
+
+                
+                //if its a dead ball play the runoff audio
+                if (rb.velocity.magnitude < 1f)
+                {
+                    if (!audioSource.isPlaying)
+                    {
+                        audioSource.clip = bounceSound[bounceSound.Length - 1];
+                        audioSource.Play();
+                    }
+
+                }
+                //otherwise bounce per bouncecount
+                else
+                {
+                    audioSource.clip = bounceSound[BounceCount - 1];
+                    audioSource.Play();
+                }
             }
- 
         }
     }
 
@@ -114,11 +117,13 @@ public class Movement : MonoBehaviour
         //if we're over the power bar or touching any of the UI: stop the throwing
         if (Input.touchCount > 0 && !canvas.GetComponent<UIDetection>().CheckUIpressed() && _Ready) //otherwise we access an array before its populated
         {
+            
+
             if (Input.GetTouch(0).phase == TouchPhase.Began)
             {
                 {
                     //set the balls original rotation
-                    OriginalYRot = transform.eulerAngles.y;
+                    //OriginalYRot = transform.eulerAngles.y;
 
                     //log began throw
                     _Began = true;
@@ -129,31 +134,26 @@ public class Movement : MonoBehaviour
                     trajectoryLine.GetComponent<MeshRenderer>().enabled = true;
                 }
             }
+            //we're moving around on the screen - update the trajectory line and store angles
             if(Input.GetTouch(0).phase == TouchPhase.Moved && _Began)
             {
-                mvPos = Input.GetTouch(0).position;
+                Vector2 mvPos = Input.GetTouch(0).position;
 
-
-                HandPos = mvPos;
-
-                dir = mvPos - startPos;
-
-                angleY =  Mathf.Clamp(dir.y * SensitivityY * Pixel2AngleY, 0f, maxYAngle);
-
-                float F = (PowerBar * 4) ;
-                float v = (F / rb.mass) * Time.fixedDeltaTime;
+                //movement amount * sensitivity, converted to angle and clamped between min and max
+                releaseAngle.y = Mathf.Clamp((mvPos.y - startPos.y) * Sensitivity.y * Pixel2Angle.y, 0f, MaxAngle.y);
 
                 //rotation
-                angleX = Mathf.Clamp((mvPos.x * SensitivityX * Pixel2AngleX) - maxXAngle, -maxXAngle, maxXAngle) + OriginalYRot;
+                releaseAngle.x = Mathf.Clamp((((mvPos.x) - (GameManager.Instance.ScreenWidth * 0.5f)) * Sensitivity.x * Pixel2Angle.x), -MaxAngle.x, MaxAngle.x) + transform.eulerAngles.y;
 
-               // rotate the whole ball
-                   transform.eulerAngles = new Vector3(0, angleX, 0f);
-               // and the line
-                   trajectoryLine.transform.eulerAngles = new Vector3(0f, angleX, 0f);
+                //rotate the trajectory line
+                trajectoryLine.transform.eulerAngles = new Vector3(0f, releaseAngle.x, 0f);
 
+                //calculate velocity:
+                /// F / m = accel -then- accel * t = v
+                float v = ((PowerBar * 4) / rb.mass) * Time.fixedDeltaTime;
 
-                //draw my trajectory line
-                trajectoryLine.GetComponent<Trajectory>().DrawArc(v, angleY);
+                //draw the trajectory line
+                trajectoryLine.GetComponent<Trajectory>().DrawArc(v, releaseAngle.y);
 
 
             }
@@ -161,56 +161,47 @@ public class Movement : MonoBehaviour
             {
                 //clear began log for next throw
                 _Began = false;
-                // touchTimeEnd = Time.time;
-                endPos = Input.GetTouch(0).position;
 
-              //  float timeInverval = touchTimeStart - touchTimeEnd;
-                dir = startPos - endPos;
+                //hide our trajectory line
+                trajectoryLine.GetComponent<MeshRenderer>().enabled = false;
 
-
-                //calc auto aim
-                releaseAngle = new Vector2(angleX, angleY);
                 //add trajectory angle values to the ball
                 transform.eulerAngles = new Vector3(-releaseAngle.y, releaseAngle.x, 0f);
 
                 //calc velocity
                 releaseVelocity = transform.forward * PowerBar * 4; 
 
-
+                //run the auto aim to assist the players release
                 AutoAim(releaseAngle, releaseVelocity);
-
-
-                rb.isKinematic = false;
 
                 //update final release angle and velocity
                 transform.eulerAngles = new Vector3(-releaseAngle.y, releaseAngle.x, 0f);
-                rb.AddForce(releaseVelocity.magnitude * transform.forward); //set the release velocity back to the forward transform
+                //set the release velocity back to the forward transform and add force
+                rb.AddForce(releaseVelocity.magnitude * transform.forward); 
 
 
-                //transform.eulerAngles = new Vector3(-angleY, angleX, 0f);
-                //rb.AddForce(transform.forward * PowerBar * 4);
-
-                //update our ghost line
-                if (GhostLine)
-                {
-                    ghostTrajectory.GetComponent<MeshRenderer>().enabled = true;
-                    ghostTrajectory.GetComponent<GhostTrajectory>().CopyTrajectory();
-                }
-                else
-                {
-                    ghostTrajectory.GetComponent<MeshRenderer>().enabled = false;
-                }
-
-                //hide our trajectory line
-                trajectoryLine.GetComponent<MeshRenderer>().enabled = false;
+                //update our ghost line -- Dev purposes ONLY - remove at production
+                //if (GhostLine)
+                //{
+                //    ghostTrajectory.GetComponent<MeshRenderer>().enabled = true;
+                //    ghostTrajectory.GetComponent<GhostTrajectory>().CopyTrajectory();
+                //}
+                //else
+                //{
+                //    ghostTrajectory.GetComponent<MeshRenderer>().enabled = false;
+                //}
 
                 //mark our shot as live - IEnumerator gives the force time to effect the ball
-                StartCoroutine(LiveBall(0.5f));
+                StartCoroutine(LiveBall(0.1f));
 
                 //disable more throwing until the ball has reset
                 _Ready = false;
             }
 
+        }
+        else
+        {
+            CheckDeadBall();
         }
     }
 
@@ -224,12 +215,18 @@ public class Movement : MonoBehaviour
 
     void CheckDeadBall()
     {
-        rbMag = rb.velocity.magnitude;     
+        //rbMag = rb.velocity.magnitude;     
                 
         //magnitude zero's out at high arc's - added position check to stop a respawn if a high shot is made
         if(LiveShot && rb.velocity.magnitude < 0.5f && transform.position.y < 0.01f)
         {
+            //force the respawn if our magnitude drops too low
             GetComponent<Ball>().Respawn(true);
+        }
+        else
+        {
+            //allow a regular respawn check from the ball script
+            GetComponent<Ball>().Respawn(false);
         }
     }
 
@@ -237,18 +234,25 @@ public class Movement : MonoBehaviour
     private void AutoAim(Vector2 angle, Vector3 velocity)
     {
         int i = GameManager.Instance.CurrentChallenge -1;
+
+        //sense check for stored solution
+        if (SolutionAngle.Length <= i || SolutionVelocity.Length <= i)
+        {
+            //Debug.Log("No Solution Stored for Auto-Aim!");
+            return;
+        }
         //if the x is within a range - push towards target x rotation
         float xDiff = angle.x - SolutionAngle[i].x;
 
         if (Mathf.Abs(xDiff) <= rotationLimit)
         {
             releaseAngle.x -= xDiff * AutoAimAmt;
-            Debug.Log("Rotation Difference: " + xDiff + ". Rotation Changed");
+            //Debug.Log("Rotation Difference: " + xDiff + ". Rotation Changed");
         }
-        else
-        {
-            Debug.Log("Rotation Difference: " + xDiff + ". Rotation Not Changed");
-        }
+       // else
+       // {
+            //Debug.Log("Rotation Difference: " + xDiff + ". Rotation Not Changed");
+       // }
 
         //if angle is within a range - push toward target angle
         float yDiff = angle.y - SolutionAngle[i].y;
@@ -257,34 +261,34 @@ public class Movement : MonoBehaviour
         if (Mathf.Abs(yDiff) <= angleLimit)
         {
             releaseAngle.y -= yDiff * AutoAimAmt;
-            Debug.Log("Angle Magnitude: " + yDiff + ". Release Angle Changed");
+            //Debug.Log("Angle Magnitude: " + yDiff + ". Release Angle Changed");
         }
-        else
-        {
-            Debug.Log("Angle Magnitude: " + yDiff + ". Release Angle Not Changed");
-        }
+        //else
+        //{
+            //Debug.Log("Angle Magnitude: " + yDiff + ". Release Angle Not Changed");
+        //}
 
         //if velocity is within a range - push toward target velocity
         if (Mathf.Abs(VelocityVar.magnitude) <= velocityLimit)
         {
             releaseVelocity -= VelocityVar * AutoAimAmt;
-            Debug.Log("Velocity Magnitude: " + VelocityVar.magnitude + ". Velocity Changed");
+            //Debug.Log("Velocity Magnitude: " + VelocityVar.magnitude + ". Velocity Changed");
         }
-        else
-        {
-            Debug.Log("Velocity Magnitude: " + VelocityVar.magnitude + ". Velocity Not Changed");
-        }
+       // else
+        //{
+            //Debug.Log("Velocity Magnitude: " + VelocityVar.magnitude + ". Velocity Not Changed");
+        //}
 
 
         //just some debugging for the console
-        if (Mathf.Abs(VelocityVar.magnitude) <= velocityLimit && Mathf.Abs(yDiff) <= angleLimit)
-        {
-            Debug.Log("Its going in");
-        }
-        else
-        {
-            Debug.Log("Its not going in");
-        }
+        //if (Mathf.Abs(VelocityVar.magnitude) <= velocityLimit && Mathf.Abs(yDiff) <= angleLimit)
+        //{
+        //    Debug.Log("Its going in");
+        //}
+        //else
+        //{
+        //    Debug.Log("Its not going in");
+        //}
 
     }
 

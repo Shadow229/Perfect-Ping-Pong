@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ChallengeSelector : MonoBehaviour
 {
-    public GameObject ChallengeManager;
+   // public GameObject ChallengeManager;
     public bool NextSelector;
 
 
@@ -22,9 +22,9 @@ public class ChallengeSelector : MonoBehaviour
         if (NextSelector)
         {
             //sense check on the challenge manager
-            if (!ChallengeManager) return;
+            //if (!ChallengeManager) return;
 
-            if (ChallengeManager.GetComponent<Challenge>().TotalChallenges == GameManager.Instance.CurrentChallenge)
+            if (GameManager.Instance.lastChallenge) //ChallengeManager.GetComponent<Challenge>().TotalChallenges == GameManager.Instance.CurrentChallenge)
             {
                 gameObject.transform.GetChild(0).gameObject.SetActive(false);
             }

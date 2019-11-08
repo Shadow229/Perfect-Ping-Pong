@@ -7,13 +7,23 @@ public class TutorialChallenges : Challenge
 {
     private bool Achieved = false;
 
+    [Space]
+    [Header("Challenge Info")]
+    [SerializeField]
+    private int levelNumber = 1;
+    [SerializeField]
+    private int totalChallenges = 3;
+
+    private GameManager GM;
+
     public void Awake()
     {
+        GM = GameManager.Instance;
         //
-        HideObjectives(GameManager.Instance.CurrentChallenge);
+        HideObjectives(GM.CurrentChallenge);
 
         //set our level values
-        SetLevelValues();
+        SetLevelValues(levelNumber, totalChallenges);
 
        //update the padlocks for this level (called from inherited class)
         UpdatePadlocks();
@@ -22,10 +32,14 @@ public class TutorialChallenges : Challenge
         SetSolutions();
 
         //update camera position
-        Camera.main.GetComponent<Animator>().SetInteger("CurrentChallenge", GameManager.Instance.CurrentChallenge);
+        Camera.main.GetComponent<Animator>().SetInteger("CurrentChallenge", GM.CurrentChallenge);
 
         //set up the challenge
-        StartCoroutine(SetNewChallenge(ChallengeTransitionTimef));
+        if (GM.CurrentChallenge > 1)
+        {
+            StartCoroutine(SetNewChallenge(ChallengeTransitionTimef));
+        }
+
     }
 
     public void Update()
@@ -33,7 +47,7 @@ public class TutorialChallenges : Challenge
         //if the ball has been thrown start checking if the criteria have been met to complete the challenge
         if (!Ball.GetComponent<Movement>()._Began)
         {
-            switch (GameManager.Instance.CurrentChallenge)
+            switch (GM.CurrentChallenge)
             {
                 case 1:
                     Achieved = Level1();
@@ -54,35 +68,11 @@ public class TutorialChallenges : Challenge
         }
 
         //tell the game manager the outcome then reset the achieved flag
-        GameManager.Instance.ChallengeReqAchieved = Achieved;
+        GM.ChallengeReqAchieved = Achieved;
         Achieved = false;
 
     }
 
-
-    private void SetLevelValues()
-    {
-        //challenge values
-        LevelNumber = 1;
-        //CurrentChallenge = 1;
-        TotalChallenges = 3;
-        //camera movement
-        ChallengeTransitionTimef = 2.5f;
-
-        //if the level we're on is fully unlocked, unlock all challenges
-        if (GameManager.Instance.Level > LevelNumber)
-        {
-            //set the unlocked challenges
-            ChallengesUnlocked = TotalChallenges;
-        }
-        else
-        {
-            //otherwise pull the number from the saved data
-            ChallengesUnlocked = GameManager.Instance.ChallengeLevel;
-        }
-
-
-    }
 
 
     private void SetSolutions()
@@ -115,9 +105,9 @@ public class TutorialChallenges : Challenge
     //Level 1: no challenge - just get the ball in
     private bool Level1()
     {
-        GameManager.Instance.lastChallenge = false;
+        GM.lastChallenge = false;
 
-        if (GameManager.Instance.ChallengeLevel <= 1 && GameManager.Instance.Level <= LevelNumber)
+        if (GM.ChallengeLevel <= 1 && GM.Level <= LevelNumber)
         {
             return true;
         }
@@ -130,9 +120,9 @@ public class TutorialChallenges : Challenge
     //Level 2: 1 or more bounces
     private bool Level2()
     {
-        GameManager.Instance.lastChallenge = false;
+        GM.lastChallenge = false;
 
-        if (GameManager.Instance.ChallengeLevel <= 2 && GameManager.Instance.Level <= LevelNumber)
+        if (GM.ChallengeLevel <= 2 && GM.Level <= LevelNumber)
         {
             if (Ball.GetComponent<Movement>().BounceCount >= 1)
             {
@@ -151,9 +141,9 @@ public class TutorialChallenges : Challenge
     //Level 3: 1 or more rebounds
     private bool Level3()
     {
-        GameManager.Instance.lastChallenge = true;
+        GM.lastChallenge = true;
 
-        if (GameManager.Instance.ChallengeLevel <= 3 && GameManager.Instance.Level <= LevelNumber)
+        if (GM.ChallengeLevel <= 3 && GM.Level <= LevelNumber)
         {
             if (Ball.GetComponent<Movement>().ReboundCount >= 1)
             {
@@ -172,7 +162,8 @@ public class TutorialChallenges : Challenge
 
     private bool ShowChallengeComplete(bool val)
     {
-        ObjectiveUI[GameManager.Instance.CurrentChallenge - 1].transform.GetChild(0).GetComponent<Image>().enabled = val;
+        ObjectiveUI[GM.CurrentChallenge - 1].transform.GetChild(0).GetComponent<Image>().enabled = val;
         return val;
     }
 }
+

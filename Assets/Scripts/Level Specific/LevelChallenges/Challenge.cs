@@ -14,9 +14,9 @@ public class Challenge : MonoBehaviour
 
     [Space]
     [Header("Challenge Info")]
-    public int LevelNumber;
-    public int TotalChallenges;
-    public int ChallengesUnlocked;
+    protected int LevelNumber;
+    protected int TotalChallenges;
+    protected int ChallengesUnlocked;
 
     [SerializeField]
     [Header("Start Positions")]
@@ -35,7 +35,7 @@ public class Challenge : MonoBehaviour
     public GameObject[] ObjectiveUI;
     public GameObject[] ChallengeLockedUI;
 
-    protected float ChallengeTransitionTimef;
+    protected float ChallengeTransitionTimef = 2.5f;
 
 
     public void PlayNextChallenge()
@@ -51,6 +51,9 @@ public class Challenge : MonoBehaviour
 
             //hide the UI buttons
             ShotCompleteUI.GetComponent<RawImage>().enabled = false;
+            //reset the UI shot compelte scale ready for the next animation
+            ShotCompleteUI.GetComponent<Animator>().SetTrigger("Reset");
+            //hide the objectives
             HideObjectives();
 
             //update camera animation
@@ -177,5 +180,30 @@ public class Challenge : MonoBehaviour
             }
             i++;
         }
+    }
+
+
+    protected void SetLevelValues(int a_Level, int a_TotalChallenges)
+    {
+        //challenge values
+        LevelNumber = a_Level;
+        //CurrentChallenge = 1;
+        TotalChallenges = a_TotalChallenges;
+        //camera movement
+        //ChallengeTransitionTimef = 2.5f;
+
+        //if the level we're on is fully unlocked, unlock all challenges
+        if (GameManager.Instance.Level > LevelNumber)
+        {
+            //set the unlocked challenges
+            ChallengesUnlocked = TotalChallenges;
+        }
+        else
+        {
+            //otherwise pull the number from the saved data
+            ChallengesUnlocked = GameManager.Instance.ChallengeLevel;
+        }
+
+
     }
 }

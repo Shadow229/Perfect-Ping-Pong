@@ -54,12 +54,9 @@ public class ShotComplete : MonoBehaviour
                     //Save our incremented challenge level
                     GameManager.Instance.ChallengeCompleted();
                 }
-                else
-                {
-                    //Splash finish UI and buttons
-                    FinishSplash.GetComponent<UIShotComplete>().PlaySplashUI();
-                   // other.GetComponent<Ball>().Respawn(true);
-                }
+
+                //Splash finish UI and buttons
+                FinishSplash.GetComponent<UIShotComplete>().PlaySplashUI();
 
             }
             else

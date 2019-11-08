@@ -28,14 +28,11 @@ public class Ball : MonoBehaviour
         SpawnRot = rot;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        GetComponent<SphereCollider>().material.bounciness = Bouncyness;
-
-        Respawn();
-        
-    }
+    //// Update is called once per frame
+    //void Update()
+    //{
+    //    //Respawn();
+    //}
 
 
 
@@ -81,6 +78,9 @@ public class Ball : MonoBehaviour
         //reset the ball counters
         GetComponent<Movement>().BounceCount = 0;
         GetComponent<Movement>().ReboundCount = 0;
+
+        //reset the bouncyness
+        GetComponent<SphereCollider>().material.bounciness = Bouncyness;
     }
 
     public void ZeroOut()
