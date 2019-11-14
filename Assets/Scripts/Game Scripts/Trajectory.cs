@@ -1,20 +1,23 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 public class Trajectory : MonoBehaviour
 {
-    Mesh mesh;
-    public float meshWidth;
+    private Mesh mesh;
 
-    //public float Fvelocity;
-    //public float Fangle;
-    public int resolution = 10;
+    [SerializeField]
+    private float meshWidth = 0.02f;
+    [SerializeField]
+    private int resolution = 10;
 
+    [SerializeField]
+    [Range(0f, 1f)]
+    private float LineVisability = 0.2f;
 
-    float g;
-    float radianAngle;
+    private float g;
+    private float radianAngle;
 
     private void Awake()
     {
@@ -99,7 +102,7 @@ public class Trajectory : MonoBehaviour
 
         for (int i = 0; i <= resolution; i++)
         {
-            float t = (float)i / (float)resolution;
+            float t =  ((float)i / (float)resolution) * LineVisability;
             arr[i] = CalcArcPoint(t, maxDist, velocity);
         }
 

@@ -1,51 +1,26 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿//using System.Collections;
+//using System.Collections.Generic;
+//using UnityEngine;
 using UnityEngine.UI;
 
 public class TutorialChallenges : Challenge
 {
     private bool Achieved = false;
 
-    [Space]
-    [Header("Challenge Info")]
-    [SerializeField]
-    private int levelNumber = 1;
-    [SerializeField]
-    private int totalChallenges = 3;
+    //[Space]
+    //[Header("Challenge Info")]
+    //[SerializeField]
+    //private int levelNumber = 1;
+    //[SerializeField]
+    //private int totalChallenges = 3;
 
-    private GameManager GM;
+   // private GameManager GM;
 
-    public void Awake()
-    {
-        GM = GameManager.Instance;
-        //
-        HideObjectives(GM.CurrentChallenge);
-
-        //set our level values
-        SetLevelValues(levelNumber, totalChallenges);
-
-       //update the padlocks for this level (called from inherited class)
-        UpdatePadlocks();
-
-        //store the solutions for this level in the movement script for the ball to use
-        SetSolutions();
-
-        //update camera position
-        Camera.main.GetComponent<Animator>().SetInteger("CurrentChallenge", GM.CurrentChallenge);
-
-        //set up the challenge
-        if (GM.CurrentChallenge > 1)
-        {
-            StartCoroutine(SetNewChallenge(ChallengeTransitionTimef));
-        }
-
-    }
-
+   
     public void Update()
     {
         //if the ball has been thrown start checking if the criteria have been met to complete the challenge
-        if (!Ball.GetComponent<Movement>()._Began)
+        if (!Ball.GetComponent<Movement>().HasBegan)
         {
             switch (GM.CurrentChallenge)
             {
@@ -75,8 +50,6 @@ public class TutorialChallenges : Challenge
 
 
 
-    private void SetSolutions()
-    {
         //Vector2 Ang1, Ang2, Ang3;
         //Vector3 Vel1, Vel2, Vel3;
 
@@ -93,9 +66,6 @@ public class TutorialChallenges : Challenge
         //Vel3 = new Vector3(-86f, 436.75f, 371.83f);
 
         //store the solutions in the movement script for the ball to use
-        Ball.GetComponent<Movement>().SolutionAngle = solutionAngle;
-        Ball.GetComponent<Movement>().SolutionVelocity = solutionVelocity;
-    }
 
 
  

@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +14,8 @@ public class Challenge : MonoBehaviour
 
     [Space]
     [Header("Challenge Info")]
-    protected int LevelNumber;
-    protected int TotalChallenges;
+    public int LevelNumber;
+    public int TotalChallenges;
     protected int ChallengesUnlocked;
 
     [SerializeField]
@@ -28,7 +28,7 @@ public class Challenge : MonoBehaviour
     [Header("Challenge Solutions")]
     protected Vector2[] solutionAngle;
     [SerializeField]
-    protected Vector3[] solutionVelocity;
+    protected float[] solutionPower;
     protected GameObject[] ChallengeLocked;
 
     [Header("Challenge UI")]
@@ -37,11 +37,44 @@ public class Challenge : MonoBehaviour
 
     protected float ChallengeTransitionTimef = 2.5f;
 
+    protected GameManager GM;
+
+    public void Awake()
+    {
+        GM = GameManager.Instance;
+
+        //set sfx audio level
+        GameObject.Find("Canvas").GetComponent<AudioSource>().volume = GameManager.Instance.SFXVol;
+
+        //
+        HideObjectives(GM.CurrentChallenge);
+
+        //set our level values
+        SetLevelValues();
+
+        //update the padlocks for this level (called from inherited class)
+        UpdatePadlocks();
+
+        //store the solutions for this level in the movement script for the ball to use
+        SetSolutions();
+
+        //update camera position
+        Camera.main.GetComponent<Animator>().SetInteger("CurrentChallenge", GM.CurrentChallenge);
+
+        //set up the challenge
+        if (GM.CurrentChallenge > 1)
+        {
+            StartCoroutine(SetNewChallenge(ChallengeTransitionTimef));
+        }
+    }
+
 
     public void PlayNextChallenge()
     {
         if (GameManager.Instance.CurrentChallenge < TotalChallenges)
         {
+            //stop celebrating if we're moving on from previous challenge
+            ShotCompleteUI.GetComponent<UIShotComplete>().StopCelebrating();
             //clear any current overlay
             overlayManager.GetComponent<OverlayManager>().ClearOverlay();
 
@@ -75,6 +108,9 @@ public class Challenge : MonoBehaviour
     {
         if (GameManager.Instance.CurrentChallenge > 1)
         {
+            //stop celebrating if we're moving on from previous challenge
+            ShotCompleteUI.GetComponent<UIShotComplete>().StopCelebrating();
+
             //clear any current overlay
             overlayManager.GetComponent<OverlayManager>().ClearOverlay();
 
@@ -183,15 +219,8 @@ public class Challenge : MonoBehaviour
     }
 
 
-    protected void SetLevelValues(int a_Level, int a_TotalChallenges)
+    protected void SetLevelValues()
     {
-        //challenge values
-        LevelNumber = a_Level;
-        //CurrentChallenge = 1;
-        TotalChallenges = a_TotalChallenges;
-        //camera movement
-        //ChallengeTransitionTimef = 2.5f;
-
         //if the level we're on is fully unlocked, unlock all challenges
         if (GameManager.Instance.Level > LevelNumber)
         {
@@ -205,5 +234,12 @@ public class Challenge : MonoBehaviour
         }
 
 
+    }
+
+
+    protected void SetSolutions()
+    {
+        //store the solutions in the movement script for the ball to use
+        Ball.GetComponent<Movement>().SetSolutionValues(solutionAngle, solutionPower);
     }
 }

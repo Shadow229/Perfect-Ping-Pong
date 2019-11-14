@@ -1,18 +1,17 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    public Vector3 SpawnPoint;
-    public Vector3 SpawnRot;
-
     [SerializeField]
     [Range(0, 1)]
-    float Bouncyness = 0.85f;
+    private float Bouncyness = 0.85f;
 
-    bool Respawning = false;
-
+    //private variables
+    private Vector3 SpawnPoint;
+    private Vector3 SpawnRot;
+    private bool Respawning = false;
     private float fDefaultBouncyness;
 
     // Start is called before the first frame update
@@ -27,14 +26,6 @@ public class Ball : MonoBehaviour
         SpawnPoint = pos;
         SpawnRot = rot;
     }
-
-    //// Update is called once per frame
-    //void Update()
-    //{
-    //    //Respawn();
-    //}
-
-
 
     public void Respawn(bool ForceRespawn = false, float ForceTime = -1f)
     {
@@ -51,7 +42,7 @@ public class Ball : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
 
         //mark it as a !Live shot
-        GetComponent<Movement>().LiveShot = false;
+        GetComponent<Movement>().IsLiveShot = false;
 
         //reset our rb
         ZeroOut();

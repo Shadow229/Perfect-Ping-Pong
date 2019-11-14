@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿//using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -33,7 +33,7 @@ public class UIDetection : MonoBehaviour
 
 
         //if theres a UI overlay dont move anything
-        if (overlayManager.GetComponent<OverlayManager>()._overlayVis[GameManager.Instance.CurrentChallenge - 1])
+        if (overlayManager.GetComponent<OverlayManager>().OverlayCheck[GameManager.Instance.CurrentChallenge - 1])
         {
             return true;
         }
@@ -43,15 +43,13 @@ public class UIDetection : MonoBehaviour
             foreach (RaycastResult result in results)
             {
                 //Debug.Log("Hit " + result.gameObject.name);
-                string hn = result.gameObject.name;
 
                 //if we're over the powerbar or hitting the finish UI buttons, dont throw the ball 
-                if (hn == "PowerBar" || hn == "NextChallengeBtn" || hn == "MenuBtn" || hn == "Menu" ||
+                if (result.gameObject.CompareTag("UIProceed") ||
                     // if we're hitting next or preview (while not throwing the ball already) dont throw the ball
-                    (!Ball.GetComponent<Movement>()._Began && (result.gameObject.name == "NextChallenge" || result.gameObject.name == "PrevChallenge")))
+                    (!Ball.GetComponent<Movement>().HasBegan && (result.gameObject.name == "NextChallenge" || result.gameObject.name == "PrevChallenge")))
                 {
                     return true;
-                    //                   break;
                 }
             }
         }

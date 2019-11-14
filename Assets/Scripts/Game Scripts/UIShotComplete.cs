@@ -1,23 +1,25 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIShotComplete : MonoBehaviour
 {
-    public AnimationCurve FinishUIcurve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
-
     public GameObject MenuBtn;
     public GameObject NextChallengeBtn;
     public GameObject NextLevelBtn;
+    public AudioClip Clapping, Showing;
 
-    //private bool ShotSuccess = false;
-    private RectTransform rt;
+
+    private void Awake()
+    {
+        GetComponent<AudioSource>().volume = GameManager.Instance.SFXVol;
+    }
 
     public void PlaySplashUI()
     {
-
-        rt = GetComponent<RectTransform>();
+        //give the player a round of applause
+        GetComponent<AudioSource>().PlayOneShot(Clapping);
 
         //mark the shot as a success for the update function
         StartCoroutine(MarkSuccessful(0.8f));
@@ -39,7 +41,8 @@ public class UIShotComplete : MonoBehaviour
         //start the animation
         if (anim)
         {
-            anim.Play("NailedIt"); //getting stuck here. need to reset it when one of the buttons below is hit
+            anim.Play("NailedIt");
+            GetComponent<AudioSource>().PlayOneShot(Showing);
         };
 
         //show the splash completed image
@@ -63,5 +66,26 @@ public class UIShotComplete : MonoBehaviour
         {
             NextLevelBtn.SetActive(true);
         }
+    }
+
+    public void StopCelebrating()
+    {
+        AudioSource aud = GetComponent<AudioSource>();
+        if (aud.isPlaying)
+        {
+            StartCoroutine(FadeOut(aud, 1f));
+        }
+    }
+
+    public static IEnumerator FadeOut(AudioSource audioSource, float FadeTime)
+    {
+        float startVolume = audioSource.volume;
+        while (audioSource.volume > 0)
+        {
+            audioSource.volume -= startVolume * Time.deltaTime / FadeTime;
+            yield return null;
+        }
+        audioSource.Stop();
+        audioSource.volume = startVolume;
     }
 }

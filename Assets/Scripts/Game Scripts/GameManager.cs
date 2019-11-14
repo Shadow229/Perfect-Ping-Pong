@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     public int CurrentLevel;
     [Header("User Settings")]
     public float SensitivityMultiplier;
-    public float MusicVol;
+    public float MusicVol, SFXVol;
 
 
 
@@ -85,9 +85,19 @@ public class GameManager : MonoBehaviour
         {
             MusicVol = 0.5f;
         }
+        if (PlayerPrefs.HasKey("SFXVolume"))
+        {
+            SFXVol = PlayerPrefs.GetFloat("SFXVolume");
+        }
+        else
+        {
+            SFXVol = 0.5f;
+        }
 
         //set music volume
         GetComponent<AudioSource>().volume = MusicVol;
+        //Set button volume
+        GameObject.Find("Canvas").GetComponent<AudioSource>().volume = SFXVol;
     }
 
     public void LevelUnlocked()
@@ -191,6 +201,14 @@ public class GameManager : MonoBehaviour
         //save it
         MusicVol = vol;
         PlayerPrefs.SetFloat("MusicVolume", vol);
+        PlayerPrefs.Save();
+    }
+
+    public void SetSFXVolume(float vol)
+    {
+        //save it
+        SFXVol = vol;
+        PlayerPrefs.SetFloat("SFXVolume", vol);
         PlayerPrefs.Save();
     }
 }

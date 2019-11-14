@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,8 +8,15 @@ public class ShotComplete : MonoBehaviour
 {
     public GameObject FinishSplash;
     public GameObject ChallengeManager;
+    public AudioClip Wobble, Splash;
 
     private bool Ran = false;
+
+
+    private void Awake()
+    {
+        GetComponent<AudioSource>().volume = GameManager.Instance.SFXVol;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,6 +26,14 @@ public class ShotComplete : MonoBehaviour
 
             ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
             Animator anim = GetComponent<Animator>();
+            AudioSource aud = GetComponent<AudioSource>();
+
+            //play the splash
+            if (!aud.isPlaying)
+            {
+                aud.PlayOneShot(Splash);
+                aud.PlayOneShot(Wobble);
+            }
 
             //wobble the cub
             if (anim)
@@ -57,7 +72,6 @@ public class ShotComplete : MonoBehaviour
 
                 //Splash finish UI and buttons
                 FinishSplash.GetComponent<UIShotComplete>().PlaySplashUI();
-
             }
             else
             {

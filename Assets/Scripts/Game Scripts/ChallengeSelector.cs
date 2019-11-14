@@ -1,41 +1,39 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 
 public class ChallengeSelector : MonoBehaviour
 {
-   // public GameObject ChallengeManager;
-    public bool NextSelector;
-
+    public GameObject ChallengeManager;
+    public GameObject Next, Previous;
 
     public void Awake()
     {
         UpdateVisibility();
     }
 
-
     public void UpdateVisibility()
     {
-
-
-        //if its the 'next' button
-        if (NextSelector)
+        //if its the last challenge for the next button
+        if (ChallengeManager.GetComponent<Challenge>().TotalChallenges == GameManager.Instance.CurrentChallenge)
         {
-            //sense check on the challenge manager
-            //if (!ChallengeManager) return;
-
-            if (GameManager.Instance.lastChallenge) //ChallengeManager.GetComponent<Challenge>().TotalChallenges == GameManager.Instance.CurrentChallenge)
-            {
-                gameObject.transform.GetChild(0).gameObject.SetActive(false);
-            }
+            Next.transform.GetChild(0).gameObject.SetActive(false);
         }
         else
         {
-            if (GameManager.Instance.CurrentChallenge == 1)
-            {
-                gameObject.transform.GetChild(0).gameObject.SetActive(false);
-            }
+        Next.transform.GetChild(0).gameObject.SetActive(true);
         }
+
+        //if its the first challenge for the previous button
+        if (GameManager.Instance.CurrentChallenge == 1)
+        {
+            Previous.transform.GetChild(0).gameObject.SetActive(false);
+        }
+        else
+        {
+            Previous.transform.GetChild(0).gameObject.SetActive(true);
+        }
+
        
     }
 }
