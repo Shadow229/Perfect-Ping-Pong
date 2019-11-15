@@ -61,13 +61,14 @@ public class ShotComplete : MonoBehaviour
                 if(!Ran)
                 {
                     Ran = true;
+
                     //update the UI strikethrough for that challenge perminatently
                     ChallengeManager.GetComponent<Challenge>().ObjectiveUI[GameManager.Instance.CurrentChallenge - 1].transform.GetChild(0).GetComponent<Image>().enabled = true;
 
                     //update unlocked challenges
                     ChallengeManager.GetComponent<Challenge>().AddChallengeUnlocked();
                     //Save our incremented challenge level
-                    GameManager.Instance.ChallengeCompleted();
+                    GameManager.Instance.ChallengeCompleted();                    
                 }
 
                 //Splash finish UI and buttons

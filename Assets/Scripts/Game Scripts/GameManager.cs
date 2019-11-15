@@ -2,6 +2,7 @@
 //using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+//using UnityEngine.Advertisements;
 
 public class GameManager : MonoBehaviour
 { 
@@ -37,6 +38,7 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
+           // InitialiseAds();
             LoadGame();
         }
         else
@@ -211,4 +213,13 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.SetFloat("SFXVolume", vol);
         PlayerPrefs.Save();
     }
+
+
+    //private void InitialiseAds()
+    //{
+    //    string gameID = "";
+    //    bool testMode = true;
+
+    //    Advertisement.Initialize(gameID, testMode);
+    //}
 }

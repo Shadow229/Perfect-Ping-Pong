@@ -11,6 +11,8 @@ public class Challenge : MonoBehaviour
     public GameObject Objectives;
     public GameObject ShotCompleteUI;
     public GameObject overlayManager;
+    public GameObject HintsManager;
+    public GameObject AdManager;
 
     [Space]
     [Header("Challenge Info")]
@@ -41,12 +43,16 @@ public class Challenge : MonoBehaviour
 
     public void Awake()
     {
+        //start loading the banner ad
+        AdManager.GetComponent<Adverts>().PlayBannerAd();
+
+        //get game manager instance
         GM = GameManager.Instance;
 
         //set sfx audio level
         GameObject.Find("Canvas").GetComponent<AudioSource>().volume = GameManager.Instance.SFXVol;
 
-        //
+        //Hide current objectives
         HideObjectives(GM.CurrentChallenge);
 
         //set our level values
@@ -88,6 +94,8 @@ public class Challenge : MonoBehaviour
             ShotCompleteUI.GetComponent<Animator>().SetTrigger("Reset");
             //hide the objectives
             HideObjectives();
+            //hide hints
+            if (HintsManager) { HintsManager.GetComponent<Hints>().HideHints(); }
 
             //update camera animation
             Camera.main.GetComponent<Animator>().SetInteger("CurrentChallenge", GameManager.Instance.CurrentChallenge);
@@ -121,6 +129,8 @@ public class Challenge : MonoBehaviour
             //hide the UI buttons
             ShotCompleteUI.GetComponent<RawImage>().enabled = false;
             HideObjectives();
+            //hide hints
+            if (HintsManager) { HintsManager.GetComponent<Hints>().HideHints(); }
 
             //update camera animation
             Camera.main.GetComponent<Animator>().SetInteger("CurrentChallenge", GameManager.Instance.CurrentChallenge);
@@ -157,6 +167,9 @@ public class Challenge : MonoBehaviour
 
         //unhide the challenge UI
         HideObjectives(GameManager.Instance.CurrentChallenge);
+
+        //update hints
+        if (HintsManager) { HintsManager.GetComponent<Hints>().UpdateHint(); }
     }
 
 

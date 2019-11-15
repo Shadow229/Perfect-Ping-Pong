@@ -53,6 +53,7 @@ public class Movement : MonoBehaviour
     private Vector2 Pixel2Angle;
     private float[] SolutionPower;
     private float Power;
+    private float OrigRot;
     private bool _Ready;    
     private bool LiveShot = false;
     private AudioSource audioSource;
@@ -136,6 +137,9 @@ public class Movement : MonoBehaviour
                     //    touchTimeStart = Time.time;
                     startPos = Input.GetTouch(0).position;
 
+                    //get original rotation
+                    OrigRot = transform.eulerAngles.y;
+
                     //show our trajectory line
                     trajectoryLine.GetComponent<MeshRenderer>().enabled = true;
                 }
@@ -146,14 +150,33 @@ public class Movement : MonoBehaviour
                 Vector2 mvPos = Input.GetTouch(0).position;
 
                 //movement amount * sensitivity, converted to angle and clamped between min and max
-                releaseAngle.y = Mathf.Clamp((startPos.y - mvPos.y) * Sensitivity.y * Pixel2Angle.y, 0f, MaxAngle.y);
+               // releaseAngle.y = Mathf.Clamp((startPos.y - mvPos.y) * Sensitivity.y * Pixel2Angle.y, 0f, MaxAngle.y);
+                releaseAngle.y = Mathf.Clamp(Vector2.Distance(startPos, mvPos) * Sensitivity.y * Pixel2Angle.y, 0f, MaxAngle.y);
 
                 //rotation
                 //releaseAngle.x = Mathf.Clamp((((mvPos.x) - (GameManager.Instance.ScreenWidth * 0.5f)) * Sensitivity.x * Pixel2Angle.x), -MaxAngle.x, MaxAngle.x) + transform.eulerAngles.y;
-                releaseAngle.x = Mathf.Clamp((startPos.x - mvPos.x) * Sensitivity.x * Pixel2Angle.x, -MaxAngle.x, MaxAngle.x) + transform.eulerAngles.y;
+                //releaseAngle.x = Mathf.Clamp((startPos.x - mvPos.x) * Sensitivity.x * Pixel2Angle.x, -MaxAngle.x, MaxAngle.x) + OrigRot;
+
+                Vector3 wb = Camera.main.WorldToScreenPoint(transform.position);
+                Vector2 sp = new Vector2(wb.x, wb.y);
+                //Vector2 direction = new Vector2(wb.x,wb.y) - mvPos;
+                //Vector3 fwd = transform.forward;
+
+                Vector2 dif = mvPos - sp;
+
+                float tan = dif.x / dif.y;
+                float theta = Mathf.Rad2Deg * Mathf.Atan(tan);
+
+
+                releaseAngle.x = dif.y > 0 ? theta + OrigRot - 180 : theta + OrigRot;
+
+
+                //Debug.Log(theta);
 
                 //rotate the trajectory line
                 trajectoryLine.transform.eulerAngles = new Vector3(0f, releaseAngle.x, 0f);
+                //rotate the ball (for the direction arrow)
+                transform.eulerAngles = new Vector3(0f, releaseAngle.x, 0f);
 
 
                 // PowerBar = SolutionPower[GameManager.Instance.CurrentChallenge - 1];
@@ -180,6 +203,9 @@ public class Movement : MonoBehaviour
             {
                 //clear began log for next throw
                 HasBegan = false;
+                
+                //hide the direction
+                transform.GetChild(0).GetComponent<MeshRenderer>().enabled = false;
 
                 //hide our trajectory line
                 trajectoryLine.GetComponent<MeshRenderer>().enabled = false;
@@ -257,7 +283,7 @@ public class Movement : MonoBehaviour
         //sense check for stored solution
         if (SolutionAngle.Length <= i || SolutionPower.Length <= i)
         {
-            //Debug.Log("No Solution Stored for Auto-Aim!");
+            Debug.Log("No Solution Stored for Auto-Aim!");
             return;
         }
         //if the x is within a range - push towards target x rotation
@@ -266,7 +292,7 @@ public class Movement : MonoBehaviour
         if (Mathf.Abs(xDiff) <= rotationLimit)
         {
             releaseAngle.x -= xDiff * AutoAimAmt;
-            //Debug.Log("Rotation Difference: " + xDiff + ". Rotation Changed");
+          //  Debug.Log("Rotation Difference: " + xDiff + ". Rotation Changed");
         }
        // else
        // {
@@ -280,7 +306,7 @@ public class Movement : MonoBehaviour
         if (Mathf.Abs(yDiff) <= angleLimit)
         {
             releaseAngle.y -= yDiff * AutoAimAmt;
-            //Debug.Log("Angle Magnitude: " + yDiff + ". Release Angle Changed");
+         //   Debug.Log("Angle Magnitude: " + yDiff + ". Release Angle Changed");
         }
         //else
         //{

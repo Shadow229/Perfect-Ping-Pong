@@ -72,6 +72,9 @@ public class Ball : MonoBehaviour
 
         //reset the bouncyness
         GetComponent<SphereCollider>().material.bounciness = Bouncyness;
+
+        //show the direction
+        transform.GetChild(0).GetComponent<MeshRenderer>().enabled = true;
     }
 
     public void ZeroOut()
