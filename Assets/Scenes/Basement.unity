@@ -493,6 +493,7 @@ MonoBehaviour:
   Objectives: {fileID: 49413583}
   ShotCompleteUI: {fileID: 1202889894}
   overlayManager: {fileID: 713376019}
+  HintsManager: {fileID: 0}
   AdManager: {fileID: 930020551}
   LevelNumber: 2
   TotalChallenges: 1
@@ -985,14 +986,14 @@ RectTransform:
   m_GameObject: {fileID: 219457617}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.8108313, y: -6.2569084, z: 3.8108313}
+  m_LocalScale: {x: 5.763501, y: -7.1796775, z: 5.763501}
   m_Children: []
   m_Father: {fileID: 951451925}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: 227}
+  m_AnchoredPosition: {x: 1, y: 288}
   m_SizeDelta: {x: 125.5, y: 103.62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &219457619
@@ -1013,7 +1014,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: aa09eea3ab3b62244897e91317c149b1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 13c24ac0dc1e6a64fa400f6d3ba0c45f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3596,7 +3597,7 @@ RectTransform:
   m_GameObject: {fileID: 951451924}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.42044446, y: 0.250899, z: 0.42874753}
+  m_LocalScale: {x: 0.39319438, y: 0.23463756, z: 0.4009593}
   m_Children:
   - {fileID: 219457618}
   - {fileID: 1290411612}
@@ -3605,7 +3606,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -2.59, y: 371.09}
+  m_AnchoredPosition: {x: -1.7681, y: 370}
   m_SizeDelta: {x: 236.4, y: 194.1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &951451926
@@ -4657,6 +4658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a676561ba56244f8183df9173a3fba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Ball: {fileID: 2081024217}
   MenuBtn: {fileID: 1339497995}
   NextChallengeBtn: {fileID: 229451648}
   NextLevelBtn: {fileID: 736811907}
@@ -5405,7 +5407,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 480, y: 800}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96

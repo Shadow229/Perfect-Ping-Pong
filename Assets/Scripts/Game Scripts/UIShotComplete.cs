@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class UIShotComplete : MonoBehaviour
 {
+    public GameObject Ball;
     public GameObject MenuBtn;
     public GameObject NextChallengeBtn;
     public GameObject NextLevelBtn;
     public AudioClip Clapping, Showing;
-
 
     private void Awake()
     {
@@ -66,6 +66,9 @@ public class UIShotComplete : MonoBehaviour
         {
             NextLevelBtn.SetActive(true);
         }
+
+        //set the shot to not live
+        Ball.GetComponent<Movement>().IsLiveShot = false;
     }
 
     public void StopCelebrating()

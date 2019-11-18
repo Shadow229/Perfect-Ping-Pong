@@ -70,106 +70,87 @@ public class Challenge : MonoBehaviour
         //set up the challenge
         if (GM.CurrentChallenge > 1)
         {
-            StartCoroutine(SetNewChallenge(ChallengeTransitionTimef));
+            PlayLevelChange();
+           // StartCoroutine(SetNewChallenge(ChallengeTransitionTimef));
         }
     }
 
 
     public void PlayNextChallenge()
     {
-        if (GameManager.Instance.CurrentChallenge < TotalChallenges)
+        if (GameManager.Instance.CurrentChallenge < TotalChallenges && !Ball.GetComponent<Movement>().IsLiveShot)
         {
-            //stop celebrating if we're moving on from previous challenge
-            ShotCompleteUI.GetComponent<UIShotComplete>().StopCelebrating();
             //clear any current overlay
             overlayManager.GetComponent<OverlayManager>().ClearOverlay();
 
             //inc the current challenge
-            GameManager.Instance.CurrentChallenge++;
+            GM.CurrentChallenge++;
             //ChallengesUnlocked++;
 
-            //hide the UI buttons
-            ShotCompleteUI.GetComponent<RawImage>().enabled = false;
-            //reset the UI shot compelte scale ready for the next animation
-            ShotCompleteUI.GetComponent<Animator>().SetTrigger("Reset");
-            //hide the objectives
-            HideObjectives();
-            //hide hints
-            if (HintsManager) { HintsManager.GetComponent<Hints>().HideHints(); }
-
-            //update camera animation
-            Camera.main.GetComponent<Animator>().SetInteger("CurrentChallenge", GameManager.Instance.CurrentChallenge);
-
-            //wait for the camera animation to go to the next challenge
-            // if its unlocked, set it up
-            if (GameManager.Instance.CurrentChallenge <= ChallengesUnlocked)
-            {
-                StartCoroutine(SetNewChallenge(ChallengeTransitionTimef));
-            }
-
+            PlayLevelChange();
         }
-
-        //load the main menu?
     }
 
     public void PlayPreviousChallenge()
     {
-        if (GameManager.Instance.CurrentChallenge > 1)
+        if (GM.CurrentChallenge > 1 && !Ball.GetComponent<Movement>().IsLiveShot)
         {
-            //stop celebrating if we're moving on from previous challenge
-            ShotCompleteUI.GetComponent<UIShotComplete>().StopCelebrating();
-
             //clear any current overlay
             overlayManager.GetComponent<OverlayManager>().ClearOverlay();
 
             //inc the current challenge
-            GameManager.Instance.CurrentChallenge--;
-            //ChallengesUnlocked++;
+            GM.CurrentChallenge--;
 
-            //hide the UI buttons
-            ShotCompleteUI.GetComponent<RawImage>().enabled = false;
-            HideObjectives();
-            //hide hints
-            if (HintsManager) { HintsManager.GetComponent<Hints>().HideHints(); }
-
-            //update camera animation
-            Camera.main.GetComponent<Animator>().SetInteger("CurrentChallenge", GameManager.Instance.CurrentChallenge);
-
-            //wait for the camera animation to go to the next challenge
-            // if its unlocked, set it up
-            if (GameManager.Instance.CurrentChallenge <= ChallengesUnlocked)
-            {
-                StartCoroutine(SetNewChallenge(ChallengeTransitionTimef));
-            }
-        }   
+            PlayLevelChange();
+        }
     }
 
-    protected IEnumerator SetNewChallenge(float waitTime)
+    public void PlayLevelChange()
     {
-        yield return new WaitForSeconds(waitTime);
+        //stop celebrating if we're moving on from previous challenge
+        ShotCompleteUI.GetComponent<UIShotComplete>().StopCelebrating();
 
-        //unlock the challenge
-        UpdatePadlocks();
+        //hide the UI buttons
+        ShotCompleteUI.GetComponent<RawImage>().enabled = false;
+        //reset the UI shot compelte scale ready for the next animation
+        if (ShotCompleteUI.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("NailedIt"))
+        {
+            ShotCompleteUI.GetComponent<Animator>().SetTrigger("Reset");
+        }
+        //hide the objectives
+        HideObjectives();
+        //hide hints
+        if (HintsManager) { HintsManager.GetComponent<Hints>().HideHints(); }
 
-        //call our overlay for popups on the current challenge
-        overlayManager.GetComponent<OverlayManager>().ShowOverlay();
+        //update camera animation
+        Camera.main.GetComponent<Animator>().SetInteger("CurrentChallenge", GM.CurrentChallenge);
 
-        //move the ball (and trajectories)
-        //Ball.GetComponent<Ball>().ZeroOut();
-        //Ball.transform.position = ballPosition[GameManager.Instance.CurrentChallenge - 1];
-        //Ball.transform.eulerAngles = ballRotation[GameManager.Instance.CurrentChallenge - 1];
-        //Ball.GetComponent<Ball>().ZeroOut();
+    }
 
-        Ball.GetComponent<Ball>().SetSpawnPoint(ballPosition[GameManager.Instance.CurrentChallenge - 1], ballRotation[GameManager.Instance.CurrentChallenge - 1]);
+    public void SetNewChallenge()
+    {
+        if (GM.CurrentChallenge <= ChallengesUnlocked)
+        {
+            //unlock the challenge
+            UpdatePadlocks();
 
-        //spawn the ball
-        Ball.GetComponent<Ball>().Respawn(true, 0f);
+            //call our overlay for popups on the current challenge
+            overlayManager.GetComponent<OverlayManager>().ShowOverlay();
 
-        //unhide the challenge UI
-        HideObjectives(GameManager.Instance.CurrentChallenge);
+            //limit calls for GM
+            int ChallengeNoArr = GM.CurrentChallenge - 1;
 
-        //update hints
-        if (HintsManager) { HintsManager.GetComponent<Hints>().UpdateHint(); }
+            Ball.GetComponent<Ball>().SetSpawnPoint(ballPosition[ChallengeNoArr], ballRotation[ChallengeNoArr]);
+
+            //spawn the ball
+            Ball.GetComponent<Ball>().Respawn(true, 0f);
+
+            //unhide the challenge UI
+            HideObjectives(ChallengeNoArr + 1);
+
+            //update hints
+            if (HintsManager) { HintsManager.GetComponent<Hints>().UpdateHint(); }
+        }
     }
 
 
@@ -194,12 +175,12 @@ public class Challenge : MonoBehaviour
 
     public void SetCurrentChallenge(int i)
     {
-        GameManager.Instance.CurrentChallenge = i;
+        GM.CurrentChallenge = i;
     }
 
     public void SetCurrentLevel(int i)
     {
-        GameManager.Instance.CurrentLevel = i;
+        GM.CurrentLevel = i;
     }
 
     public void AddChallengeUnlocked()
@@ -235,7 +216,7 @@ public class Challenge : MonoBehaviour
     protected void SetLevelValues()
     {
         //if the level we're on is fully unlocked, unlock all challenges
-        if (GameManager.Instance.Level > LevelNumber)
+        if (GM.Level > LevelNumber)
         {
             //set the unlocked challenges
             ChallengesUnlocked = TotalChallenges;
@@ -243,7 +224,7 @@ public class Challenge : MonoBehaviour
         else
         {
             //otherwise pull the number from the saved data
-            ChallengesUnlocked = GameManager.Instance.ChallengeLevel;
+            ChallengesUnlocked = GM.ChallengeLevel;
         }
 
 

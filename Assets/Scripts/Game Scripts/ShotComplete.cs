@@ -53,7 +53,6 @@ public class ShotComplete : MonoBehaviour
             other.GetComponent<Ball>().ZeroOut();
 
 
-
             //if the requirements for that challenge have been filled
             if (GameManager.Instance.ChallengeReqAchieved)
             {

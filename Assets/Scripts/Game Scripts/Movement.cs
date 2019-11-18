@@ -40,7 +40,7 @@ public class Movement : MonoBehaviour
     public int ReboundCount { get; set; } = 0;
     public int BounceCount { get; set; } = 0;
     public bool SetReady { set { _Ready = value; } }
-    public bool IsLiveShot { set { LiveShot = value; } }
+    public bool IsLiveShot { get { return LiveShot; } set { LiveShot = value; } }
     public bool HasBegan { get; private set; }
 
 

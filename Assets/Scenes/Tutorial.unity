@@ -612,7 +612,7 @@ RectTransform:
   - {fileID: 1301748855}
   - {fileID: 814773819}
   m_Father: {fileID: 1546092965}
-  m_RootOrder: 8
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -800,6 +800,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 334112256}
     m_Modifications:
+    - target: {fileID: 8692756205097475515, guid: 0bf78d1050ef23e47b5e41631ea3feed,
+        type: 3}
+      propertyPath: m_Name
+      value: Pint Glass (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8692756205097475515, guid: 0bf78d1050ef23e47b5e41631ea3feed,
+        type: 3}
+      propertyPath: m_TagString
+      value: Target
+      objectReference: {fileID: 0}
     - target: {fileID: -7515078078983880563, guid: 0bf78d1050ef23e47b5e41631ea3feed,
         type: 3}
       propertyPath: Mute
@@ -814,16 +824,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_audioClip
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8692756205097475515, guid: 0bf78d1050ef23e47b5e41631ea3feed,
-        type: 3}
-      propertyPath: m_Name
-      value: Pint Glass (1)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8692756205097475515, guid: 0bf78d1050ef23e47b5e41631ea3feed,
-        type: 3}
-      propertyPath: m_TagString
-      value: Target
       objectReference: {fileID: 0}
     - target: {fileID: 5690727414192058280, guid: 0bf78d1050ef23e47b5e41631ea3feed,
         type: 3}
@@ -1547,14 +1547,14 @@ RectTransform:
   m_GameObject: {fileID: 219457617}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3.8108313, y: -6.2569084, z: 3.8108313}
+  m_LocalScale: {x: 5.763501, y: -7.1796775, z: 5.763501}
   m_Children: []
   m_Father: {fileID: 951451925}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1, y: 227}
+  m_AnchoredPosition: {x: 1, y: 288}
   m_SizeDelta: {x: 125.5, y: 103.62}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &219457619
@@ -1575,7 +1575,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: aa09eea3ab3b62244897e91317c149b1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 13c24ac0dc1e6a64fa400f6d3ba0c45f, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1896,7 +1896,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.07058824}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.08235294}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.22352941}
@@ -1992,8 +1992,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: bc4f5ef028cbb014b85e64ba0d98516e, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -3750,7 +3750,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -255}
+  m_AnchoredPosition: {x: 0, y: -307}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &535493796
@@ -4327,7 +4327,7 @@ RectTransform:
   - {fileID: 472287834}
   - {fileID: 1773034624}
   m_Father: {fileID: 1546092965}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -4486,7 +4486,7 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.07058824}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
     m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.08235294}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.22352941}
@@ -4549,8 +4549,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: bc4f5ef028cbb014b85e64ba0d98516e, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -4835,7 +4835,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -247}
+  m_AnchoredPosition: {x: 0, y: -307}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &814773820
@@ -5556,7 +5556,7 @@ RectTransform:
   - {fileID: 219457618}
   - {fileID: 1290411612}
   m_Father: {fileID: 1546092965}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7420,7 +7420,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children: []
   m_Father: {fileID: 1546092965}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 19.4}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -7439,6 +7439,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6a676561ba56244f8183df9173a3fba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Ball: {fileID: 2081024217}
   MenuBtn: {fileID: 1339497995}
   NextChallengeBtn: {fileID: 229451648}
   NextLevelBtn: {fileID: 736811907}
@@ -8071,7 +8072,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -261}
+  m_AnchoredPosition: {x: 0, y: -307}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1301748856
@@ -8363,8 +8364,8 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 0.07058824}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.08235294}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.5529412}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 0.22352941}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -8426,8 +8427,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 21300000, guid: bc4f5ef028cbb014b85e64ba0d98516e, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -9140,6 +9141,7 @@ GameObject:
   - component: {fileID: 1457931468}
   - component: {fileID: 1457931467}
   - component: {fileID: 1457931470}
+  - component: {fileID: 1457931471}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -9231,6 +9233,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1457931471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457931466}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de8f783787d60fe4f8d91cb13ca43ec2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChallengeManager: {fileID: 156066390}
 --- !u!4 &1492707864 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6543375475739314439, guid: 6f7e70e3e61b49e4197a5624d90de9f9,
@@ -9388,7 +9403,7 @@ MonoBehaviour:
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 480, y: 800}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 1
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -9430,10 +9445,10 @@ RectTransform:
   - {fileID: 229451649}
   - {fileID: 736811908}
   - {fileID: 49413584}
+  - {fileID: 82013245}
   - {fileID: 713376021}
   - {fileID: 1202889895}
   - {fileID: 951451925}
-  - {fileID: 82013245}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -12694,11 +12709,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1546676183}
     m_Modifications:
-    - target: {fileID: -7515078078983880563, guid: 0bf78d1050ef23e47b5e41631ea3feed,
-        type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8692756205097475515, guid: 0bf78d1050ef23e47b5e41631ea3feed,
         type: 3}
       propertyPath: m_Name
@@ -12708,6 +12718,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Target
+      objectReference: {fileID: 0}
+    - target: {fileID: -7515078078983880563, guid: 0bf78d1050ef23e47b5e41631ea3feed,
+        type: 3}
+      propertyPath: m_audioClip
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5690727414192058280, guid: 0bf78d1050ef23e47b5e41631ea3feed,
         type: 3}
