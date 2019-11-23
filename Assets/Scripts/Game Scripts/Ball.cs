@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-//using System.Collections.Generic;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
@@ -29,7 +28,7 @@ public class Ball : MonoBehaviour
 
     public void Respawn(bool ForceRespawn = false, float ForceTime = -1f)
     {
-        if (!Respawning && (transform.position.y < -1.5 || ForceRespawn))
+        if (!Respawning && (transform.position.y < -1.5f || ForceRespawn))
         {
             Respawning = true;
             //START A COROUTINE TO RESPAWN
@@ -79,6 +78,7 @@ public class Ball : MonoBehaviour
 
     public void ZeroOut()
     {
+        //set all forces to zero
         GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
     }

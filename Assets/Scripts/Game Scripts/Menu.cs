@@ -1,8 +1,6 @@
 ﻿using System.Collections;
-//using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-//using UnityEngine.UI;
 
 
 public class Menu : MonoBehaviour
@@ -20,6 +18,7 @@ public class Menu : MonoBehaviour
     {
         GameManager.Instance.LoadScene(LevelNo);
     }
+
    public void PlayNextLevel()
     {
         //play full screen ad before next level
@@ -33,6 +32,7 @@ public class Menu : MonoBehaviour
 
     IEnumerator SceneLoadDelay()
     {
+        //delay the load to allow the advert to kick in before it
         yield return new WaitForSeconds(1f);
 
         //load next scene

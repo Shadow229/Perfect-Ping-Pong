@@ -1111,9 +1111,9 @@ MonoBehaviour:
   - {x: 10, y: -0.0009696958, z: 9.2}
   - {x: -0.5, y: -0.04233551, z: 19}
   ballRotation:
-  - {x: 0, y: 0, z: 0}
-  - {x: 0, y: 270, z: 0}
-  - {x: 0, y: 0, z: 0}
+  - 0
+  - 270
+  - 0
   solutionAngle:
   - {x: -15.9, y: 51.1}
   - {x: 286.41, y: 73.19}
@@ -2909,9 +2909,10 @@ GameObject:
   - component: {fileID: 399188246}
   - component: {fileID: 399188245}
   - component: {fileID: 399188243}
+  - component: {fileID: 399188244}
   m_Layer: 5
   m_Name: PrevChallenge
-  m_TagString: Untagged
+  m_TagString: UISkipChallenge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2990,28 +2991,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 156066394}
-        m_MethodName: PlayPreviousChallenge
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 949468142}
-        m_MethodName: UpdateVisibility
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
       - m_Target: {fileID: 1339497995}
         m_MethodName: SetActive
         m_Mode: 6
@@ -3056,6 +3035,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &399188244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 399188241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6596c34813602ac41bfc153e3c112d47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Next: 0
+  ChallengeManager: {fileID: 156066390}
+  ChallengeMovement: {fileID: 949468141}
+  clickAmt: 0
 --- !u!114 &399188245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3750,7 +3745,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -307}
+  m_AnchoredPosition: {x: 0, y: -290.7}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &535493796
@@ -4290,7 +4285,7 @@ GameObject:
   - component: {fileID: 713376021}
   - component: {fileID: 713376020}
   m_Layer: 5
-  m_Name: TutorialOverlays
+  m_Name: OverlayManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5298,13 +5293,30 @@ GameObject:
   - component: {fileID: 890486189}
   - component: {fileID: 890486188}
   - component: {fileID: 890486187}
+  - component: {fileID: 890486186}
   m_Layer: 5
   m_Name: NextChallenge
-  m_TagString: Untagged
+  m_TagString: UISkipChallenge
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &890486186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 890486185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6596c34813602ac41bfc153e3c112d47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Next: 1
+  ChallengeManager: {fileID: 156066390}
+  ChallengeMovement: {fileID: 949468141}
+  clickAmt: 0
 --- !u!114 &890486187
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5351,28 +5363,6 @@ MonoBehaviour:
       - m_Target: {fileID: 625699531}
         m_MethodName: SetActive
         m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 156066394}
-        m_MethodName: PlayNextChallenge
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 949468142}
-        m_MethodName: UpdateVisibility
-        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9246,6 +9236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ChallengeManager: {fileID: 156066390}
+  ChallengeMovement: {fileID: 949468141}
 --- !u!4 &1492707864 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6543375475739314439, guid: 6f7e70e3e61b49e4197a5624d90de9f9,

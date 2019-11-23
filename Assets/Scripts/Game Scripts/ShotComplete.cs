@@ -1,14 +1,15 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
 public class ShotComplete : MonoBehaviour
 {
-    public GameObject FinishSplash;
-    public GameObject ChallengeManager;
-    public AudioClip Wobble, Splash;
+    [SerializeField]
+    private GameObject FinishSplash = null;
+    [SerializeField]
+    private GameObject ChallengeManager = null;
+    [SerializeField]
+    private AudioClip Wobble = null, Splash = null;
 
     private bool Ran = false;
 
@@ -23,7 +24,7 @@ public class ShotComplete : MonoBehaviour
         //ensure its the ball we're colliting with and that its not a second bouce (only run once)
         if (other.CompareTag("Ball"))
         {
-
+            //get components
             ParticleSystem ps = GetComponentInChildren<ParticleSystem>();
             Animator anim = GetComponent<Animator>();
             AudioSource aud = GetComponent<AudioSource>();
@@ -78,8 +79,6 @@ public class ShotComplete : MonoBehaviour
                 //initialse the reset
                 other.GetComponent<Ball>().Respawn(true);
             }
-            
-            
         }
     }
 }

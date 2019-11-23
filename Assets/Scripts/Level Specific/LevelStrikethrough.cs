@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
+//Level select for the UI in the main menu. Shows / Hides the padlocks on the level select screens
 public class LevelStrikethrough : MonoBehaviour
 {
     public void UpdateLevelUI()

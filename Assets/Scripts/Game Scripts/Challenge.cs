@@ -1,33 +1,38 @@
-﻿using System.Collections;
-//using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 
 public class Challenge : MonoBehaviour
 {
     [Header("Global Objects")]
-    public GameObject Ball;
-    public GameObject Objectives;
-    public GameObject ShotCompleteUI;
-    public GameObject overlayManager;
-    public GameObject HintsManager;
-    public GameObject AdManager;
+    [SerializeField]
+    protected GameObject Ball;
+    [SerializeField]
+    protected GameObject Objectives;
+    [SerializeField]
+    protected GameObject ShotCompleteUI;
+    [SerializeField]
+    protected GameObject overlayManager;
+    [SerializeField]
+    protected GameObject HintsManager;
+    [SerializeField]
+    protected GameObject AdManager;
 
     [Space]
     [Header("Challenge Info")]
-    public int LevelNumber;
+    [SerializeField]
+    protected int LevelNumber;
     public int TotalChallenges;
     protected int ChallengesUnlocked;
 
-    [SerializeField]
     [Header("Start Positions")]
+    [SerializeField]
     protected Vector3[] ballPosition;
     [SerializeField]
-    protected Vector3[] ballRotation;
+    protected float[] ballRotation;
 
-    [SerializeField]
     [Header("Challenge Solutions")]
+    [SerializeField]
     protected Vector2[] solutionAngle;
     [SerializeField]
     protected float[] solutionPower;
@@ -35,9 +40,8 @@ public class Challenge : MonoBehaviour
 
     [Header("Challenge UI")]
     public GameObject[] ObjectiveUI;
-    public GameObject[] ChallengeLockedUI;
-
-    protected float ChallengeTransitionTimef = 2.5f;
+    [SerializeField]
+    protected GameObject[] ChallengeLockedUI;
 
     protected GameManager GM;
 
@@ -66,13 +70,6 @@ public class Challenge : MonoBehaviour
 
         //update camera position
         Camera.main.GetComponent<Animator>().SetInteger("CurrentChallenge", GM.CurrentChallenge);
-
-        //set up the challenge
-        if (GM.CurrentChallenge > 1)
-        {
-            PlayLevelChange();
-           // StartCoroutine(SetNewChallenge(ChallengeTransitionTimef));
-        }
     }
 
 
@@ -85,8 +82,8 @@ public class Challenge : MonoBehaviour
 
             //inc the current challenge
             GM.CurrentChallenge++;
-            //ChallengesUnlocked++;
 
+            //set up the level
             PlayLevelChange();
         }
     }
@@ -101,6 +98,7 @@ public class Challenge : MonoBehaviour
             //inc the current challenge
             GM.CurrentChallenge--;
 
+            //set up the level
             PlayLevelChange();
         }
     }
@@ -112,13 +110,16 @@ public class Challenge : MonoBehaviour
 
         //hide the UI buttons
         ShotCompleteUI.GetComponent<RawImage>().enabled = false;
+
         //reset the UI shot compelte scale ready for the next animation
         if (ShotCompleteUI.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("NailedIt"))
         {
             ShotCompleteUI.GetComponent<Animator>().SetTrigger("Reset");
         }
+
         //hide the objectives
         HideObjectives();
+
         //hide hints
         if (HintsManager) { HintsManager.GetComponent<Hints>().HideHints(); }
 
@@ -127,6 +128,7 @@ public class Challenge : MonoBehaviour
 
     }
 
+    //Called from animation event after camera pan.
     public void SetNewChallenge()
     {
         if (GM.CurrentChallenge <= ChallengesUnlocked)
@@ -140,7 +142,7 @@ public class Challenge : MonoBehaviour
             //limit calls for GM
             int ChallengeNoArr = GM.CurrentChallenge - 1;
 
-            Ball.GetComponent<Ball>().SetSpawnPoint(ballPosition[ChallengeNoArr], ballRotation[ChallengeNoArr]);
+            Ball.GetComponent<Ball>().SetSpawnPoint(ballPosition[ChallengeNoArr], new Vector3(0f,ballRotation[ChallengeNoArr],0f));
 
             //spawn the ball
             Ball.GetComponent<Ball>().Respawn(true, 0f);
@@ -169,15 +171,16 @@ public class Challenge : MonoBehaviour
 
     protected void UpdatePadlock(int i)
     {
-       // ChallengeLockedUI[i].GetComponent<LockBounce>().Show = false;
         ChallengeLockedUI[i].gameObject.SetActive(false);
     }
 
+    //utilised by UI buttons
     public void SetCurrentChallenge(int i)
     {
         GM.CurrentChallenge = i;
     }
 
+    //utilised by UI buttons
     public void SetCurrentLevel(int i)
     {
         GM.CurrentLevel = i;
@@ -197,6 +200,7 @@ public class Challenge : MonoBehaviour
 
     public void HideObjectives(int exception = 0)
     {
+        //loop through all objectives under the objective manager and hide unless exception is specified (>0)
         int i = 1;
         foreach (Transform child in Objectives.GetComponent<Transform>())
         {

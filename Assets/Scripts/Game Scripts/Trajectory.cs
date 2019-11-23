@@ -70,7 +70,7 @@ public class Trajectory : MonoBehaviour
 
                 }
             }
-
+            //set values
             mesh.vertices = verticies;
             mesh.triangles = tri;
             SetUVs();

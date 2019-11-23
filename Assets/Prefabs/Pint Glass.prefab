@@ -5017,7 +5017,6 @@ MonoBehaviour:
   ChallengeManager: {fileID: 0}
   Wobble: {fileID: 8300000, guid: e9434de25f0b2c642904682e5f836224, type: 3}
   Splash: {fileID: 8300000, guid: f56348d9a2dd8724ea6b9bb0979f5026, type: 3}
-  Clapping: {fileID: 8300000, guid: 71cb04d1e405af048bab4eb0e3d5323a, type: 3}
 --- !u!82 &-7515078078983880563
 AudioSource:
   m_ObjectHideFlags: 0

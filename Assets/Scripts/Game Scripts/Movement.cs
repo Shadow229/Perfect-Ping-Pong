@@ -124,8 +124,11 @@ public class Movement : MonoBehaviour
 
     private void Move()
     {
+        //Check we're touching the screen otherwise we access an array before its populated
         //if we're over the power bar or touching any of the UI: stop the throwing
-        if (Input.touchCount > 0 && !canvas.GetComponent<UIDetection>().CheckUIpressed() && _Ready) //otherwise we access an array before its populated
+        //check the ball is reset and ready to be thrown
+        //check the challenge is unlocked
+        if (Input.touchCount > 0 && !canvas.GetComponent<UIDetection>().CheckUIpressed() && _Ready && GameManager.Instance.IsCurrentChallengeUnlocked()) 
         {
             
 
@@ -149,29 +152,23 @@ public class Movement : MonoBehaviour
             {
                 Vector2 mvPos = Input.GetTouch(0).position;
 
-                //movement amount * sensitivity, converted to angle and clamped between min and max
-               // releaseAngle.y = Mathf.Clamp((startPos.y - mvPos.y) * Sensitivity.y * Pixel2Angle.y, 0f, MaxAngle.y);
+                //release angle
                 releaseAngle.y = Mathf.Clamp(Vector2.Distance(startPos, mvPos) * Sensitivity.y * Pixel2Angle.y, 0f, MaxAngle.y);
 
                 //rotation
-                //releaseAngle.x = Mathf.Clamp((((mvPos.x) - (GameManager.Instance.ScreenWidth * 0.5f)) * Sensitivity.x * Pixel2Angle.x), -MaxAngle.x, MaxAngle.x) + transform.eulerAngles.y;
-                //releaseAngle.x = Mathf.Clamp((startPos.x - mvPos.x) * Sensitivity.x * Pixel2Angle.x, -MaxAngle.x, MaxAngle.x) + OrigRot;
-
                 Vector3 wb = Camera.main.WorldToScreenPoint(transform.position);
-                Vector2 sp = new Vector2(wb.x, wb.y);
-                //Vector2 direction = new Vector2(wb.x,wb.y) - mvPos;
-                //Vector3 fwd = transform.forward;
 
-                Vector2 dif = mvPos - sp;
-
+                //difference between ball and touched input in pixels provides 2 sides of a right angle tri
+                Vector2 dif = mvPos - new Vector2(wb.x, wb.y);
+                //SohCahToa
                 float tan = dif.x / dif.y;
+                //inverse tan for angle theta
                 float theta = Mathf.Rad2Deg * Mathf.Atan(tan);
 
-
-                releaseAngle.x = dif.y > 0 ? theta + OrigRot - 180 : theta + OrigRot;
-
-
                 //Debug.Log(theta);
+
+                //flip it so the direction is always away from our touch input
+                releaseAngle.x = dif.y > 0 ? theta + OrigRot - 180 : theta + OrigRot;
 
                 //rotate the trajectory line
                 trajectoryLine.transform.eulerAngles = new Vector3(0f, releaseAngle.x, 0f);
@@ -260,8 +257,6 @@ public class Movement : MonoBehaviour
 
     void CheckDeadBall()
     {
-        //rbMag = rb.velocity.magnitude;     
-                
         //magnitude zero's out at high arc's - added position check to stop a respawn if a high shot is made
         if(LiveShot && rb.velocity.magnitude < 0.5f && transform.position.y < 0.01f)
         {
@@ -275,7 +270,6 @@ public class Movement : MonoBehaviour
         }
     }
 
-
     private void AutoAim(Vector2 angle)
     {
         int i = GameManager.Instance.CurrentChallenge -1;
@@ -286,75 +280,21 @@ public class Movement : MonoBehaviour
             Debug.Log("No Solution Stored for Auto-Aim!");
             return;
         }
+
         //if the x is within a range - push towards target x rotation
         float xDiff = angle.x - SolutionAngle[i].x;
 
         if (Mathf.Abs(xDiff) <= rotationLimit)
         {
             releaseAngle.x -= xDiff * AutoAimAmt;
-          //  Debug.Log("Rotation Difference: " + xDiff + ". Rotation Changed");
         }
-       // else
-       // {
-            //Debug.Log("Rotation Difference: " + xDiff + ". Rotation Not Changed");
-       // }
 
         //if angle is within a range - push toward target angle
         float yDiff = angle.y - SolutionAngle[i].y;
 
-
         if (Mathf.Abs(yDiff) <= angleLimit)
         {
             releaseAngle.y -= yDiff * AutoAimAmt;
-         //   Debug.Log("Angle Magnitude: " + yDiff + ". Release Angle Changed");
         }
-        //else
-        //{
-            //Debug.Log("Angle Magnitude: " + yDiff + ". Release Angle Not Changed");
-        //}
-        //Vector3 VelocityVar = new Vector3(velocity.x - SolutionVelocity[i].x, velocity.y - SolutionVelocity[i].y, velocity.z - SolutionVelocity[i].z);
-        //if velocity is within a range - push toward target velocity
-        //if (Mathf.Abs(VelocityVar.magnitude) <= velocityLimit)
-        //{
-        //    releaseVelocity -= VelocityVar * AutoAimAmt;
-        //    //Debug.Log("Velocity Magnitude: " + VelocityVar.magnitude + ". Velocity Changed");
-        //}
-       // else
-        //{
-            //Debug.Log("Velocity Magnitude: " + VelocityVar.magnitude + ". Velocity Not Changed");
-        //}
-
-
-        //just some debugging for the console
-        //if (Mathf.Abs(VelocityVar.magnitude) <= velocityLimit && Mathf.Abs(yDiff) <= angleLimit)
-        //{
-        //    Debug.Log("Its going in");
-        //}
-        //else
-        //{
-        //    Debug.Log("Its not going in");
-        //}
-
     }
-
-
-    /*
-
-
-    Vector3 calcBallisticVelocityVector(Vector3 source, Vector3 target, float angle)
-    {
-        Vector3 direction = target - source;
-        float h = direction.y;
-        direction.y = 0;
-        float distance = direction.magnitude;
-        float a = angle * Mathf.Deg2Rad;
-        direction.y = distance * Mathf.Tan(a);
-        distance += h / Mathf.Tan(a);
-
-        // calculate velocity
-        float velocity = Mathf.Sqrt(distance * Physics.gravity.magnitude / Mathf.Sin(2 * a));
-        return velocity * direction.normalized;
-    }
-
-    */
 }

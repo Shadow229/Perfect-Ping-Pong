@@ -1,12 +1,12 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-
+//some fun loading texts if the game load takes longer than expected
 public class LoadingText : MonoBehaviour
 {
-    public string[] DisplayText;
+    [SerializeField]
+    private string[] DisplayText = null;
 
     private TextMeshProUGUI TMPro;
     private int txtNo;
@@ -20,14 +20,14 @@ public class LoadingText : MonoBehaviour
         StartCoroutine(UpdateLoadText());
     }
 
-    //once unhidden loop itself and just display some loading messages so we know its still running
+    //once unhidden loop itself and just display any additional loading messages so we know its still running
     IEnumerator UpdateLoadText()
     {
         TMPro.text = DisplayText[txtNo];
 
         txtNo = Random.Range(1, DisplayText.Length - 1);
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         StartCoroutine(UpdateLoadText());
     }
 }

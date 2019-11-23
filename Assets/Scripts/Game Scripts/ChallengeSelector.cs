@@ -1,18 +1,22 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class ChallengeSelector : MonoBehaviour
 {
-    public GameObject ChallengeManager;
-    public GameObject Next, Previous;
+    [SerializeField]
+    private GameObject ChallengeManager = null;
+    [SerializeField]
+    private GameObject Next = null, Previous = null;
 
     public void Awake()
     {
-        UpdateVisibility();
+        if (GameManager.Instance.CurrentChallenge == 1)
+        {
+            UpdateVisibility();
+        }
     }
 
+    //show and hide next and previous challenge buttons depending on the current challenge and total challenges in level
     public void UpdateVisibility()
     {
         //if its the last challenge for the next button
@@ -43,6 +47,23 @@ public class ChallengeSelector : MonoBehaviour
                 Previous.GetComponent<Button>().enabled = true;
                 Previous.transform.GetChild(0).gameObject.SetActive(true);
             }
-        } 
+        }
+    }
+
+    public void ResetCounters()
+    {
+        Next.GetComponent<ChallengeSelectorBtn>().ZeroClickCounter();
+        Previous.GetComponent<ChallengeSelectorBtn>().ZeroClickCounter();
+    }
+
+
+    public void UpdateUIChallengeSwap()
+    {
+        //if the player has moved quickly back and forth on challenges, reload the objectives
+        if (Next.GetComponent<ChallengeSelectorBtn>().clickAmt - Previous.GetComponent<ChallengeSelectorBtn>().clickAmt == 0)
+        {
+            //update the challenges
+            ChallengeManager.GetComponent<Challenge>().SetNewChallenge(); ;
+        }
     }
 }

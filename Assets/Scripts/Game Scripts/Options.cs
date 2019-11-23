@@ -1,6 +1,4 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
@@ -15,13 +13,18 @@ public class Options : MonoBehaviour
 
     private void Awake()
     {
+        InitOptionValues();
+    }
+
+    private void InitOptionValues()
+    {
+        //set option values
         ScreenInfoDimensions.GetComponent<TextMeshProUGUI>().text = GameManager.Instance.ScreenHeight + " x " + GameManager.Instance.ScreenWidth;
         Sensitivity.value = GameManager.Instance.SensitivityMultiplier;
         //initialise saved music values
         MusicVol.value = GameManager.Instance.MusicVol;
         CanvasAudio = GameObject.Find("Canvas").GetComponent<AudioSource>();
         SFXVol.value = GameManager.Instance.SFXVol;
-
     }
 
     public void SetMusicVolume()
@@ -46,7 +49,6 @@ public class Options : MonoBehaviour
 
     public void PreviewMusicVolume()
     {
-        //set it
         GameManager.Instance.GetComponent<AudioSource>().volume = MusicVol.value;
     }
 

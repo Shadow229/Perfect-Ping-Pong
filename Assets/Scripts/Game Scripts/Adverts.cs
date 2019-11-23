@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Advertisements;
 
@@ -11,22 +10,25 @@ public class Adverts : MonoBehaviour
 #elif UNITY_ANDROID
         private readonly string gameID = "3362657";
 #endif
-
+    //banner id's as defined in the unity dashboard 
     private readonly string BannerId = "banner";
     private readonly string VideoId = "video";
 
-    private readonly bool testMode = true;
+    //set testmode for ads
+    private readonly bool testMode = false;
 
     private void Start()
     {
         InitialiseAds();
     }
 
+    //initialise advertisments
     private void InitialiseAds()
     {
         Advertisement.Initialize(gameID, testMode);
     }
 
+    //play full screen advert
     public void PlayFullScreenAd()
     {
         if (Advertisement.IsReady(VideoId))
@@ -35,13 +37,16 @@ public class Adverts : MonoBehaviour
         }
     }
 
+    //show banner advert
     public void PlayBannerAd()
     {
-        StartCoroutine(ShowBannerWhenReady());
+       StartCoroutine(ShowBannerWhenReady());
     }
+
 
     IEnumerator ShowBannerWhenReady()
     {
+        //check for banner ad ready and load
         while (!Advertisement.IsReady(BannerId))
         {
             yield return new WaitForSeconds(0.5f);
@@ -50,34 +55,8 @@ public class Adverts : MonoBehaviour
         Advertisement.Banner.Show(BannerId);
     }
 
-    //public void ShowBannerAd()
-    //{
-    //    BannerLoadOptions options = new BannerLoadOptions { loadCallback = OnLoadBannerSuccess, errorCallback = OnLoadBannerFail };
-    //    Advertisement.Banner.Load(BannerId, options);
-    //}
-
     public void HideBannerAd()
     {
         Advertisement.Banner.Hide();
     }
-
-    //IEnumerator RetryBanner()
-    //{
-    //     yield return new WaitForSeconds(1f);
-
-    //    ShowBannerAd();
-    //}
-
-    //private void OnLoadBannerSuccess()
-    //{
-    //    Debug.Log("OnLoadBannerSuccess");
-    //    Advertisement.Banner.Show(BannerId);
-    //}
-
-    //private void OnLoadBannerFail(string message)
-    //{
-    //    Debug.LogError("OnLoadBannerFail reason : " + message);
-    //    //retry to show banner maybe if the reason was that the placement was not ready
-    //    StartCoroutine(RetryBanner());
-    //}
 }

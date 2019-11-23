@@ -1,15 +1,20 @@
 ﻿using System.Collections;
-//using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIShotComplete : MonoBehaviour
 {
-    public GameObject Ball;
-    public GameObject MenuBtn;
-    public GameObject NextChallengeBtn;
-    public GameObject NextLevelBtn;
-    public AudioClip Clapping, Showing;
+    [SerializeField]
+    private GameObject Ball = null;
+    [SerializeField]
+    private GameObject MenuBtn = null;
+    [SerializeField]
+    private GameObject NextChallengeBtn = null;
+    [SerializeField]
+    private GameObject NextLevelBtn = null;
+    [SerializeField]
+    private AudioClip Clapping = null, Showing = null;
+    [SerializeField]
 
     private void Awake()
     {
@@ -58,7 +63,7 @@ public class UIShotComplete : MonoBehaviour
         //show proceed buttons
         MenuBtn.SetActive(true);
 
-        if (!GameManager.Instance.lastChallenge)
+        if (!GameManager.Instance.LastChallenge)
         {
             NextChallengeBtn.SetActive(true);
         }

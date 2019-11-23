@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+//only used in development to help plot new trajectories and map new challenges
 public class GhostTrajectory : MonoBehaviour
 {
     Mesh mesh;
@@ -14,7 +13,7 @@ public class GhostTrajectory : MonoBehaviour
 
     public void CopyTrajectory()
     {
-        //copy position and rotation
+        //copy position and rotation from the trajectory line
         transform.position = TrajectoryLine.GetComponent<Transform>().position;
         transform.rotation = TrajectoryLine.GetComponent<Transform>().rotation;
 

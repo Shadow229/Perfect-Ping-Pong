@@ -1,35 +1,33 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-//using UnityEngine.Advertisements;
 
 public class GameManager : MonoBehaviour
 { 
     public static GameManager Instance { get; private set; }
 
-    //needed while under dev to stop attempting scene loads not completed yet (could also be used as a lock for paid levels)
+    //needed while under dev to stop attempting scene loads not completed yet
     public int MaxLevels = 2;
 
     //game variables
-    [Header("Device Info")]
-    public float ScreenHeight;
-    public float ScreenWidth;
-    [Header("Persistant Variables")]
-    public int Level;
-    public int ChallengeLevel;
-    [Header("Gameplay Variables")]
-    public int CurrentChallenge;
-    public int CurrentLevel;
-    [Header("User Settings")]
-    public float SensitivityMultiplier;
-    public float MusicVol, SFXVol;
+    //[Header("Device Info")]
+    public float ScreenHeight { get; set; }
+    public float ScreenWidth { get; set; }
+    // [Header("Persistant Variables")]
+    public int Level { get; set; }
+    public int ChallengeLevel { get; set; }
+    //[Header("Gameplay Variables")]
+    public int CurrentChallenge { get; set; }
+    public int CurrentLevel { get; set; }
+    //[Header("User Settings")]
+    public float SensitivityMultiplier { get; set; }
+    public float MusicVol { get; set; }
+    public float SFXVol { get; set; }
 
 
 
-    // public int Points;
-    public bool ChallengeReqAchieved = false;
-    public bool lastChallenge = false;
+// public int Points;
+    public bool ChallengeReqAchieved { get; set; }
+    public bool LastChallenge { get; set; }
 
 
     private void Start()
@@ -53,7 +51,8 @@ public class GameManager : MonoBehaviour
          ScreenWidth = Screen.width;
          ScreenHeight = Screen.height;
 
-        //get our persistant level on start
+        //Get all persistant values from registry on load
+        //Level
         if (PlayerPrefs.HasKey("Level"))
         {
             Level = PlayerPrefs.GetInt("Level");
@@ -62,7 +61,7 @@ public class GameManager : MonoBehaviour
         {
             Level = 1;
         }
-        //get our persistant level on start
+        //Challenge
         if (PlayerPrefs.HasKey("ChallengeLevel"))
         {
             ChallengeLevel = PlayerPrefs.GetInt("ChallengeLevel");
@@ -71,6 +70,7 @@ public class GameManager : MonoBehaviour
         {
             ChallengeLevel = 1;
         }
+        //Sensitivity
         if (PlayerPrefs.HasKey("Sensitivity"))
         {
             SensitivityMultiplier = PlayerPrefs.GetFloat("Sensitivity");
@@ -79,6 +79,7 @@ public class GameManager : MonoBehaviour
         {
             SensitivityMultiplier = 1.5f;
         }
+        //Music Vol
         if (PlayerPrefs.HasKey("MusicVolume"))
         {
             MusicVol = PlayerPrefs.GetFloat("MusicVolume");
@@ -87,6 +88,7 @@ public class GameManager : MonoBehaviour
         {
             MusicVol = 0.5f;
         }
+        //SFX Vol
         if (PlayerPrefs.HasKey("SFXVolume"))
         {
             SFXVol = PlayerPrefs.GetFloat("SFXVolume");
@@ -113,28 +115,38 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
+    public bool IsCurrentChallengeUnlocked()
+    {
+        if (CurrentChallenge <= ChallengeLevel)
+        {
+            return true;
+        }
+        else
+        {
+           return false;
+        }
+
+    }
+
 
     public void ChallengeCompleted()
     {
         //if this was the last challenge, and we're not replaying an old level - unlock the next one
         if (CurrentLevel == Level)
         {
-            if (lastChallenge)
+            if (LastChallenge)
             {
                 LevelUnlocked();
             }
             else
             {
                 //set it
-                PlayerPrefs.SetInt("ChallengeLevel", ++ChallengeLevel);
-                //save it
-                PlayerPrefs.Save();
+                SaveVal("ChallengeLevel", ++ChallengeLevel);
             }
         }
         
 
     }
-
 
     public void LoadNextScene()
     {
@@ -169,7 +181,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-
     public void ResetGame()
     {
         //delete our save data
@@ -178,48 +189,36 @@ public class GameManager : MonoBehaviour
         LoadGame();
     }
 
-
     public void SetSensitivity(float s)
     {
-        SensitivityMultiplier = s;
-        PlayerPrefs.SetFloat("Sensitivity", s);
         //save it
-        PlayerPrefs.Save();
+        SensitivityMultiplier = s;
+        SaveVal("Sensitivity", s);
     }
-
-    //run this from the gamemanager so its persistant across levels
-    //public void PlayBackgroundMusic()
-    //{
-    //    //get audio
-    //    AudioSource aud = GetComponent<AudioSource>();
-    //    //play it
-    //    aud.Play();
-    //}
-    //update volume
-
 
     public void SetMusicVolume(float vol)
     {
         //save it
         MusicVol = vol;
-        PlayerPrefs.SetFloat("MusicVolume", vol);
-        PlayerPrefs.Save();
+        SaveVal("MusicVolume", vol);
     }
 
     public void SetSFXVolume(float vol)
     {
         //save it
         SFXVol = vol;
-        PlayerPrefs.SetFloat("SFXVolume", vol);
-        PlayerPrefs.Save();
+        SaveVal("SFXVolume", vol);
     }
 
 
-    //private void InitialiseAds()
-    //{
-    //    string gameID = "";
-    //    bool testMode = true;
-
-    //    Advertisement.Initialize(gameID, testMode);
-    //}
+    private void SaveVal(string variableName, float value)
+    {
+        PlayerPrefs.SetFloat(variableName, value);
+        PlayerPrefs.Save();
+    }
+    private void SaveVal(string variableName, int value)
+    {
+        PlayerPrefs.SetInt(variableName, value);
+        PlayerPrefs.Save();
+    }
 }

@@ -1,9 +1,9 @@
-﻿//using System.Collections;
-//using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
+//overlays are the hints and tips before a challenge starts. They can be populated or left null in the overlayManager
 public class OverlayManager : MonoBehaviour
 {
+
     public GameObject[] Overlays;
 
     public bool[] OverlayCheck { get; private set; }
